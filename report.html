@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Report Issue - Ameereyyy</title>
+<link rel="stylesheet" href="footer.css">
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap');
+
+    :root { 
+        --bg-color: #050505; 
+        --card-bg: #111; 
+        --text-main: #ffffff; 
+        --text-sec: #999999; 
+        --accent: #ff4d4d; /* Red for Bug Report */
+        --border: #333; 
+    }
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+    
+    /* FLEXBOX LAYOUT FOR STICKY FOOTER */
+    body { 
+        background-color: var(--bg-color); 
+        color: var(--text-main); 
+        user-select: none; 
+        display: flex; 
+        flex-direction: column; 
+        min-height: 100vh; 
+    }
+    
+    input, textarea { -webkit-user-select: text; user-select: text; }
+
+    /* HEADER */
+    header {
+        position: fixed; top: 0; width: 100%; padding: 20px 8%;
+        display: flex; justify-content: space-between; align-items: center;
+        background: rgba(5, 5, 5, 0.95); backdrop-filter: blur(10px);
+        z-index: 1000; border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .page-title { font-size: 1.2rem; font-weight: 700; letter-spacing: 1px; }
+    .close-btn { text-decoration: none; color: white; font-size: 1.5rem; padding: 5px; transition: 0.3s; }
+    .close-btn:hover { color: var(--accent); transform: scale(1.1); }
+
+    /* CONTAINER (Pushes Footer Down) */
+    .container { 
+        padding: 100px 8% 40px 8%; 
+        max-width: 600px; 
+        margin: 0 auto; 
+        width: 100%; 
+        flex: 1; /* This is the key for sticky footer */
+        display: flex; 
+        flex-direction: column; 
+    }
+
+    .intro-text { margin-bottom: 30px; text-align: center; }
+    .intro-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 5px; color: var(--accent); }
+    .intro-desc { color: var(--text-sec); font-size: 0.9rem; }
+
+    /* FORM ELEMENTS */
+    .form-group { margin-bottom: 25px; }
+    .label { display: block; color: #888; margin-bottom: 10px; font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase; font-weight: 600; }
+
+    .input-field, .textarea-field {
+        width: 100%; background: var(--card-bg); border: 1px solid var(--border); padding: 15px; color: white;
+        border-radius: 8px; font-size: 0.95rem; outline: none; transition: 0.3s;
+    }
+    .input-field:focus, .textarea-field:focus { border-color: white; box-shadow: 0 0 10px rgba(255,255,255,0.1); }
+    
+    /* CUSTOM DROPDOWN */
+    .custom-select-wrapper { position: relative; width: 100%; }
+    .custom-select-trigger {
+        background: var(--card-bg); border: 1px solid var(--border); padding: 15px;
+        color: #999; border-radius: 8px; cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+        font-size: 0.95rem;
+    }
+    .custom-select-trigger:after { content: '▼'; font-size: 0.7rem; color: #666; }
+    
+    .custom-options {
+        position: absolute; top: 105%; left: 0; width: 100%;
+        background: #1a1a1a; border: 1px solid #333; border-radius: 8px;
+        overflow: hidden; opacity: 0; visibility: hidden; transform: translateY(-10px);
+        transition: 0.3s; z-index: 10;
+    }
+    .custom-options.open { opacity: 1; visibility: visible; transform: translateY(0); }
+    .custom-option { padding: 15px; cursor: pointer; transition: 0.2s; color: #ccc; border-bottom: 1px solid #222; }
+    .custom-option:hover { background: #333; color: white; }
+
+    /* SUBJECT ROW */
+    .subject-row { display: none; margin-top: 25px; animation: slideDown 0.3s ease; }
+    .subject-row.visible { display: block; }
+    @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* TEXT AREA & COUNTER */
+    .textarea-field { height: 120px; resize: none; }
+    .char-counter { text-align: right; font-size: 0.75rem; color: #666; margin-top: 5px; font-family: monospace; }
+    
+    /* FILE UPLOAD */
+    .file-upload-box {
+        border: 1px dashed #444; background: rgba(255,255,255,0.02); padding: 20px;
+        text-align: center; border-radius: 8px; cursor: pointer; transition: 0.3s; display: block;
+    }
+    .file-upload-box:hover { border-color: var(--accent); background: rgba(255, 77, 77, 0.05); }
+    .file-name { color: #4dff4d; margin-top: 5px; font-size: 0.85rem; word-break: break-all; }
+    .file-hint { color: #666; font-size: 0.8rem; }
+
+    /* SUBMIT BUTTON */
+    .submit-btn {
+        width: 100%; padding: 16px; background: white; color: black; font-weight: 700; border: none;
+        border-radius: 8px; cursor: pointer; font-size: 1rem; margin-top: 10px; transition: 0.3s;
+    }
+    .submit-btn.loading { background: #333; color: #888; pointer-events: none; }
+    
+    /* MODAL */
+    .modal-overlay {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(5px);
+        display: none; align-items: center; justify-content: center; z-index: 2000;
+        opacity: 0; transition: opacity 0.3s ease;
+    }
+    .modal-overlay.active { display: flex; opacity: 1; }
+    .modal-box { background: #111; padding: 30px; border-radius: 18px; text-align: center; width: 320px; border: 1px solid #333; }
+    .modal-title { font-size: 1.2rem; margin-bottom: 10px; color: white; font-weight: 700; }
+    .modal-desc { color: #888; font-size: 0.9rem; margin-bottom: 20px; line-height: 1.5; }
+    .modal-btn { padding: 12px 20px; background: white; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; width: 100%; color: black; }
+    .text-error { color: var(--accent); } .text-success { color: #4dff4d; }
+
+</style>
+</head>
+<body>
+
+<header>
+    <div class="page-title">Report Issue</div>
+    <a href="support.html" class="close-btn">&times;</a>
+</header>
+
+<div class="container">
+    
+    <div class="intro-text">
+        <h2 class="intro-title">Found a Glitch?</h2>
+        <p class="intro-desc">Help us maintain the ecosystem integrity.</p>
+    </div>
+
+    <form id="reportForm" onsubmit="event.preventDefault(); submitReport();">
+        
+        <div class="form-group">
+            <label class="label">GLOBAL INFINITY ID</label>
+            <input type="text" class="input-field gid-input" placeholder="GID-XXXX-XXXX">
+        </div>
+
+        <div class="form-group">
+            <label class="label">ISSUE TYPE</label>
+            <div class="custom-select-wrapper" onclick="toggleDropdown()">
+                <div class="custom-select-trigger" id="dropdownTrigger">Select Category</div>
+                <div class="custom-options" id="dropdownOptions">
+                    <div class="custom-option" onclick="selectOption('Visual Glitch')">Visual Glitch</div>
+                    <div class="custom-option" onclick="selectOption('Broken Link')">Broken Link</div>
+                    <div class="custom-option" onclick="selectOption('Performance Lag')">Performance Lag</div>
+                    <div class="custom-option" onclick="selectOption('Security Vulnerability')">Security Vulnerability</div>
+                    <div class="custom-option" onclick="selectOption('Other')">Other</div>
+                </div>
+                <input type="hidden" id="issueType">
+            </div>
+
+            <div class="subject-row" id="subjectRow">
+                <label class="label">SUBJECT (MAX 100 CHARS)</label>
+                <input type="text" class="input-field subject-input" id="subjectInput" maxlength="100" placeholder="Enter subject..." oninput="updateCharCount(this, 'subCount', 100)">
+                <div class="char-counter" id="subCount">0 / 100</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="label">DESCRIPTION</label>
+            <textarea class="textarea-field desc-input" id="descInput" maxlength="1000" placeholder="Describe the error in detail..." oninput="updateCharCount(this, 'descCount', 1000)"></textarea>
+            <div class="char-counter" id="descCount">0 / 1000</div>
+        </div>
+
+        <div class="form-group">
+            <label class="label">ATTACHMENT (OPTIONAL)</label>
+            <label class="file-upload-box">
+                <input type="file" accept=".zip,application/zip" hidden onchange="handleFile(this)">
+                <span class="file-hint" id="fileLabel">Tap to upload .zip file</span>
+                <div class="file-name" id="fileName"></div>
+            </label>
+        </div>
+
+        <button type="submit" class="submit-btn" id="submitBtn">Submit Report</button>
+    </form>
+
+</div>
+<div id="global-footer"></div>
+
+<div id="customAlert" class="modal-overlay">
+    <div class="modal-box">
+        <h3 class="modal-title" id="alertTitle">Alert</h3>
+        <p class="modal-desc" id="alertMessage">Msg</p>
+        <button class="modal-btn" onclick="document.getElementById('customAlert').classList.remove('active')">OK</button>
+    </div>
+</div>
+
+<script src="footer.js"></script>
+<script>
+    function toggleDropdown() {
+        document.getElementById('dropdownOptions').classList.toggle('open');
+    }
+
+    window.addEventListener('click', function(e) {
+        if (!e.target.closest('.custom-select-wrapper')) {
+            document.getElementById('dropdownOptions').classList.remove('open');
+        }
+    });
+
+    function selectOption(val) {
+        document.getElementById('dropdownTrigger').innerText = val;
+        document.getElementById('dropdownTrigger').style.color = "white";
+        document.getElementById('issueType').value = val;
+
+        const subRow = document.getElementById('subjectRow');
+        if(val === 'Other') {
+            subRow.classList.add('visible');
+        } else {
+            subRow.classList.remove('visible');
+        }
+    }
+
+    function updateCharCount(el, counterId, max) {
+        document.getElementById(counterId).innerText = el.value.length + " / " + max;
+    }
+
+    function handleFile(input) {
+        const label = document.getElementById('fileLabel');
+        const nameDisplay = document.getElementById('fileName');
+        
+        if (input.files && input.files[0]) {
+            const file = input.files[0];
+            if (file.name.toLowerCase().endsWith('.zip')) {
+                label.style.display = 'none';
+                nameDisplay.innerText = "Attached: " + file.name;
+            } else {
+                showAlert("Invalid File", "Only .zip files are allowed.", true);
+                input.value = "";
+                label.style.display = 'block';
+                nameDisplay.innerText = "";
+            }
+        }
+    }
+
+    function showAlert(t, m, err) {
+        const titleEl = document.getElementById('alertTitle');
+        titleEl.innerText = t;
+        document.getElementById('alertMessage').innerText = m;
+        titleEl.className = "modal-title " + (err ? "text-error" : "text-success");
+        document.getElementById('customAlert').classList.add('active');
+    }
+
+    function submitReport() {
+        const gid = document.querySelector('.gid-input').value.trim();
+        const desc = document.getElementById('descInput').value.trim();
+        const category = document.getElementById('issueType').value;
+        const btn = document.getElementById('submitBtn');
+
+        if(!gid) return showAlert("Missing ID", "Please enter your Global Infinity ID.", true);
+        if(!category) return showAlert("Missing Category", "Please select an issue type.", true);
+        if(!desc) return showAlert("Empty Description", "Please describe the error.", true);
+
+        if(category === 'Other') {
+            const subj = document.getElementById('subjectInput').value.trim();
+            if(!subj) return showAlert("Missing Subject", "Please specify the subject for 'Other'.", true);
+        }
+
+        const originalText = btn.innerText;
+        btn.classList.add('loading');
+        btn.innerText = "Analyzing Report...";
+
+        setTimeout(() => {
+            btn.classList.remove('loading');
+            btn.innerText = "✓ Report Filed";
+            btn.style.background = "#4dff4d";
+
+            showAlert("Success", "Report submitted successfully.", false);
+
+            setTimeout(() => {
+                document.getElementById('reportForm').reset();
+                document.getElementById('dropdownTrigger').innerText = "Select Category";
+                document.getElementById('dropdownTrigger').style.color = "#999";
+                document.getElementById('subjectRow').classList.remove('visible');
+                document.getElementById('fileName').innerText = "";
+                document.getElementById('fileLabel').style.display = 'block';
+                document.getElementById('subCount').innerText = "0 / 100";
+                document.getElementById('descCount').innerText = "0 / 1000";
+                btn.innerText = originalText;
+                btn.style.background = "white";
+            }, 2000);
+        }, 1500);
+    }
+
+    fetch('footer.html').then(r => r.text()).then(d => document.getElementById('global-footer').innerHTML = d);
+</script>
+
+<script src="global-script.js"></script>
+
+</body>
+</html>

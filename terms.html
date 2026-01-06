@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terms of Service - Ameereyyy</title>
+<link rel="stylesheet" href="footer.css">
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap');
+
+    :root {
+        --bg-color: #050505;
+        --text-main: #ffffff;
+        --text-sec: #999999;
+        --accent: #4dff4d;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+
+    /* Layout for Sticky Footer */
+    body {
+        background-color: var(--bg-color);
+        color: var(--text-main);
+        user-select: none;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+    }
+
+    /* HEADER */
+    header {
+        position: fixed; top: 0; width: 100%; padding: 20px 8%;
+        display: flex; justify-content: space-between; align-items: center;
+        background: rgba(5, 5, 5, 0.95); backdrop-filter: blur(10px);
+        z-index: 1000; border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .page-title { font-size: 1.2rem; font-weight: 700; letter-spacing: 1px; }
+    .close-btn { text-decoration: none; color: white; font-size: 1.5rem; padding: 5px; transition: 0.3s; }
+    .close-btn:hover { color: var(--accent); transform: scale(1.1); }
+
+    /* CONTENT CONTAINER */
+    .container {
+        padding: 120px 8% 40px 8%;
+        max-width: 800px;
+        margin: 0 auto;
+        flex: 1; /* Pushes footer down */
+        width: 100%;
+    }
+
+    .legal-content { margin-bottom: 40px; }
+    
+    .section-title {
+        font-size: 1.2rem; font-weight: 700; color: white; margin-top: 35px; margin-bottom: 15px;
+        border-left: 3px solid var(--accent); padding-left: 15px;
+    }
+    .text-block {
+        color: var(--text-sec); line-height: 1.8; font-size: 0.95rem; margin-bottom: 20px;
+        text-align: justify;
+    }
+    .highlight { color: #fff; font-weight: 500; }
+
+</style>
+</head>
+<body>
+
+    <header>
+        <div class="page-title">Terms of Service</div>
+        <a href="landing.html" class="close-btn">&times;</a>
+    </header>
+
+    <div class="container">
+        
+        <div class="legal-content">
+            <p class="text-block">By accessing and using the Ameereyyy Portfolio website, you accept and agree to be bound by the terms and provisions of this agreement.</p>
+
+            <h2 class="section-title">1. Intellectual Property</h2>
+            <p class="text-block">All content, designs, code, graphics, and the "Global Infinity ID" concept presented on this site are the intellectual property of <span class="highlight">Al Ameer (Ameereyyy)</span>. Unauthorized reproduction, distribution, or cloning of this portfolio is strictly prohibited.</p>
+
+            <h2 class="section-title">2. Usage License</h2>
+            <p class="text-block">You are granted a limited license to view the content for personal, non-commercial use. You may not modify, reverse engineer, or use any part of this site for commercial purposes without explicit written consent.</p>
+
+            <h2 class="section-title">3. User Conduct</h2>
+            <p class="text-block">When using interactive features like the Feedback or Report forms, you agree not to submit content that is abusive, offensive, spam, or malicious. We reserve the right to ban Global IDs that violate this policy.</p>
+
+            <h2 class="section-title">4. Disclaimer</h2>
+            <p class="text-block">This website is a personal portfolio and conceptual showcase. The projects (like Ameereyyy OS, Global ID) are demonstrations of vision and skill. We are not liable for any interruptions or errors in the service.</p>
+
+            <h2 class="section-title">5. Modifications</h2>
+            <p class="text-block">We reserve the right to update or modify these terms at any time without prior notice. Continued use of the website signifies your acceptance of any changes.</p>
+        </div>
+
+    </div>
+
+    <div id="global-footer"></div>
+
+    <script src="footer.js"></script>
+    <script>
+        fetch('footer.html').then(r => r.text()).then(d => {
+            document.getElementById('global-footer').innerHTML = d;
+        });
+    </script>
+
+    <script src="global-script.js"></script>
+
+</body>
+</html>

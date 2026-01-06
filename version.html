@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Version History - Ameereyyy</title>
+<link rel="stylesheet" href="footer.css">
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap');
+
+    :root { 
+        --bg-color: #050505; 
+        --card-bg: #111; 
+        --text-main: #ffffff; 
+        --text-sec: #999999; 
+        --accent: #4dff4d; 
+        --border: #333; 
+    }
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+    
+    body { background-color: var(--bg-color); color: var(--text-main); user-select: none; display: flex; flex-direction: column; min-height: 100vh; }
+
+    /* HEADER */
+    header {
+        position: fixed; top: 0; width: 100%; padding: 20px 8%;
+        display: flex; justify-content: space-between; align-items: center;
+        background: rgba(5, 5, 5, 0.95); backdrop-filter: blur(10px);
+        z-index: 1000; border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .page-title { font-size: 1.2rem; font-weight: 700; letter-spacing: 1px; }
+    .close-btn { text-decoration: none; color: white; font-size: 1.5rem; padding: 5px; transition: 0.3s; }
+    .close-btn:hover { transform: scale(1.1); color: var(--accent); }
+
+    /* CONTAINER */
+    .container { padding: 100px 8% 0 8%; max-width: 600px; margin: 0 auto; flex: 1; width: 100%; }
+
+    /* VERSION CARD */
+    .version-card {
+        background: var(--card-bg); border: 1px solid var(--border); padding: 30px;
+        border-radius: 16px; margin-bottom: 30px; position: relative;
+        overflow: hidden;
+    }
+    
+    /* CURRENT BADGE */
+    .current-badge {
+        position: absolute; top: 20px; right: 20px;
+        background: rgba(77, 255, 77, 0.1); color: var(--accent);
+        font-size: 0.7rem; font-weight: 700; padding: 5px 12px;
+        border-radius: 50px; border: 1px solid rgba(77, 255, 77, 0.2);
+        text-transform: uppercase; letter-spacing: 1px;
+    }
+
+    .v-number { font-size: 2.5rem; font-weight: 700; color: white; margin-bottom: 5px; }
+    .v-date { font-size: 0.85rem; color: #666; margin-bottom: 20px; display: block; }
+
+    .v-title { font-size: 1.1rem; font-weight: 600; margin-bottom: 15px; color: #eee; }
+
+    /* LOG LIST */
+    .change-log { list-style: none; padding: 0; }
+    .change-log li {
+        position: relative; padding-left: 20px; margin-bottom: 10px;
+        color: var(--text-sec); font-size: 0.9rem; line-height: 1.5;
+    }
+    .change-log li::before {
+        content: '•'; position: absolute; left: 0; color: var(--accent); font-size: 1.2rem; line-height: 1rem;
+    }
+
+    /* CHECK UPDATE BUTTON */
+    .check-btn {
+        width: 100%; padding: 15px; background: transparent; border: 1px solid var(--border);
+        color: white; font-weight: 600; cursor: pointer; border-radius: 12px;
+        transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 10px;
+    }
+    .check-btn:hover { background: #1a1a1a; border-color: #555; }
+    .check-btn:active { transform: scale(0.98); }
+    
+    /* SPINNER */
+    .spinner {
+        width: 18px; height: 18px; border: 2px solid rgba(255,255,255,0.3);
+        border-top: 2px solid white; border-radius: 50%;
+        animation: spin 1s linear infinite; display: none;
+    }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+    .status-msg {
+        text-align: center; margin-top: 15px; font-size: 0.85rem;
+        color: var(--text-sec); height: 20px; opacity: 0; transition: 0.3s;
+    }
+    .status-msg.visible { opacity: 1; }
+
+</style>
+</head>
+<body>
+
+    <header>
+        <div class="page-title">Version History</div>
+        <a href="landing.html" class="close-btn">&times;</a>
+    </header>
+
+    <div class="container">
+        
+        <div class="version-card">
+            <span class="current-badge">Current Installed</span>
+            <div class="v-number">1.0.0v</div>
+            <span class="v-date">Released: January 2026</span>
+            
+            <hr style="border: 0; border-top: 1px solid #222; margin: 20px 0;">
+
+            <div class="v-title">Initial Launch</div>
+            <ul class="change-log">
+                <li>Official Portfolio Release.</li>
+                <li>Integrated <strong>Global Infinity ID</strong> system.</li>
+                <li>Added Feedback & Support Centers.</li>
+                <li>Implemented Dark Mode UI ecosystem.</li>
+                <li>Performance optimizations for mobile devices.</li>
+            </ul>
+        </div>
+
+        <button class="check-btn" id="checkBtn" onclick="checkForUpdates()">
+            <div class="spinner" id="spinner"></div>
+            <span id="btnText">Check for Updates</span>
+        </button>
+        <div class="status-msg" id="statusMsg"></div>
+
+    </div>
+
+    <div id="global-footer"></div>
+
+    <script src="footer.js"></script>
+    <script>
+        function checkForUpdates() {
+            const btn = document.getElementById('checkBtn');
+            const spinner = document.getElementById('spinner');
+            const btnText = document.getElementById('btnText');
+            const msg = document.getElementById('statusMsg');
+
+            // Reset
+            msg.classList.remove('visible');
+            btn.style.pointerEvents = 'none'; // Disable click
+            spinner.style.display = 'block';
+            btnText.innerText = "Checking...";
+
+            // Simulate Network Request
+            setTimeout(() => {
+                spinner.style.display = 'none';
+                btnText.innerText = "Check for Updates";
+                btn.style.pointerEvents = 'all';
+                
+                msg.innerText = "You are using the latest version (1.0.0v).";
+                msg.style.color = "#4dff4d";
+                msg.classList.add('visible');
+            }, 2000);
+        }
+
+        // Load Footer
+        fetch('footer.html').then(r => r.text()).then(d => {
+            document.getElementById('global-footer').innerHTML = d;
+        });
+    </script>
+
+    <script src="global-script.js"></script>
+
+</body>
+</html>

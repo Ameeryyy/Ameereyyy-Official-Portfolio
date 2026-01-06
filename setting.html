@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Settings - Ameereyyy</title>
+<link rel="stylesheet" href="footer.css">
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+    :root { 
+        --bg-color: #050505; 
+        --card-bg: #111; 
+        --text-main: #ffffff; 
+        --text-sec: #999999; 
+        --red-accent: #ff4d4d; 
+        --green-accent: #4dff4d; 
+        --border-color: #222; 
+    }
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+
+    body { 
+        background-color: var(--bg-color); 
+        color: var(--text-main); 
+        user-select: none; 
+        display: flex; 
+        flex-direction: column; 
+        min-height: 100vh; 
+    }
+
+    /* HEADER */
+    header {
+        position: fixed; top: 0; width: 100%; padding: 20px 8%;
+        display: flex; justify-content: space-between; align-items: center;
+        background: rgba(5, 5, 5, 0.95); backdrop-filter: blur(10px);
+        z-index: 1000; border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .page-title { font-size: 1.2rem; font-weight: 700; letter-spacing: 1px; }
+    .close-btn { text-decoration: none; color: white; font-size: 1.5rem; padding: 5px; transition: 0.3s; }
+    .close-btn:hover { transform: scale(1.1); color: var(--red-accent); }
+
+    /* CONTAINER */
+    .container { 
+        padding: 100px 8% 40px 8%; 
+        max-width: 600px; 
+        margin: 0 auto; 
+        width: 100%; 
+        flex-grow: 1; 
+    }
+
+    /* SETTINGS GROUPS */
+    .settings-group { margin-bottom: 40px; }
+    .group-title { color: var(--text-sec); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 12px; padding-left: 5px; }
+
+    .setting-item {
+        background: var(--card-bg); padding: 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color);
+        cursor: pointer; transition: 0.2s;
+    }
+    .setting-item:first-child { border-top-left-radius: 12px; border-top-right-radius: 12px; }
+    .setting-item:last-child { border-bottom-left-radius: 12px; border-bottom-right-radius: 12px; border-bottom: none; }
+    .setting-item:hover { background: #161616; }
+
+    .label h3 { font-size: 1rem; font-weight: 500; margin-bottom: 4px; }
+    .label p { font-size: 0.8rem; color: #666; }
+
+    /* TOGGLE SWITCH */
+    .toggle-switch {
+        position: relative; width: 50px; height: 26px; background: #333; border-radius: 20px; cursor: pointer; transition: 0.3s;
+    }
+    .toggle-switch::after {
+        content: ''; position: absolute; width: 20px; height: 20px; background: white; border-radius: 50%; top: 3px; left: 3px; transition: 0.3s;
+    }
+    .toggle-switch.active { background: var(--green-accent); }
+    .toggle-switch.active::after { left: 27px; background: #000; }
+
+    .simple-status { font-size: 0.75rem; color: #555; font-weight: 600; background: rgba(255,255,255,0.05); padding: 6px 12px; border-radius: 6px; }
+
+    .action-btn {
+        width: 100%; padding: 16px; background: transparent; border: 1px solid #333; color: var(--red-accent);
+        font-weight: 600; cursor: pointer; border-radius: 12px; margin-top: 5px; transition: 0.3s; font-size: 0.95rem;
+    }
+    .action-btn:hover { background: rgba(255, 77, 77, 0.1); border-color: var(--red-accent); }
+
+    /* MODALS */
+    .modal-overlay {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(5px);
+        display: none; align-items: center; justify-content: center; z-index: 2000; opacity: 0; transition: opacity 0.3s ease;
+    }
+    .modal-overlay.active { display: flex; opacity: 1; }
+    .modal-box {
+        background: #111; border: 1px solid #333; padding: 35px 30px; border-radius: 18px; text-align: center; width: 340px;
+        transform: scale(0.95); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        box-shadow: 0 10px 50px rgba(0,0,0,0.6);
+    }
+    .modal-overlay.active .modal-box { transform: scale(1); }
+    .modal-title { font-size: 1.3rem; margin-bottom: 12px; font-weight: 700; color: white; }
+    .modal-desc { color: #888; font-size: 0.9rem; margin-bottom: 30px; line-height: 1.6; }
+    .modal-actions { display: flex; gap: 12px; justify-content: center; }
+    .modal-btn { flex: 1; padding: 14px; border-radius: 10px; border: none; cursor: pointer; font-weight: 600; font-size: 0.95rem; transition: 0.2s; }
+    .btn-cancel { background: #1a1a1a; color: white; border: 1px solid #333; }
+    .btn-confirm { background: white; color: black; }
+    .btn-full { width: 100%; background: white; color: black; }
+    .modal-btn:active { transform: scale(0.96); }
+    .text-success { color: var(--green-accent) !important; }
+    .text-error { color: var(--red-accent) !important; }
+
+    /* SPINNER ANIMATION */
+    .spinner {
+        width: 30px; height: 30px; border: 3px solid rgba(255,255,255,0.1);
+        border-top: 3px solid var(--green-accent); border-radius: 50%;
+        margin: 0 auto 20px; animation: spin 1s linear infinite;
+    }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+</style>
+</head>
+<body>
+
+    <header>
+        <div class="page-title">Settings</div>
+        <a href="landing.html" class="close-btn">&times;</a>
+    </header>
+
+    <div class="container">
+        
+        <div class="settings-group">
+            <div class="group-title">Appearance</div>
+            <div class="setting-item" onclick="showThemeInfo()">
+                <div class="label">
+                    <h3>Theme</h3>
+                    <p>Current: Dark Mode</p>
+                </div>
+                <div class="simple-status">Info</div>
+            </div>
+        </div>
+
+        <div class="settings-group">
+            <div class="group-title">System</div>
+            <div class="setting-item">
+                <div class="label">
+                    <h3>Notifications</h3>
+                    <p>Receive updates & alerts</p>
+                </div>
+                <div class="toggle-switch" id="notif-toggle" onclick="handleNotifClick(event)"></div>
+            </div>
+        </div>
+
+        <div class="settings-group">
+            <div class="group-title">Data Management</div>
+            <button class="action-btn" onclick="openModal('cacheModal')">Clear System Cache</button>
+        </div>
+
+    </div>
+
+    <div id="global-footer"></div>
+
+    <div id="notifAskModal" class="modal-overlay">
+        <div class="modal-box">
+            <h3 class="modal-title">Enable Notifications?</h3>
+            <p class="modal-desc">You will receive latest updates, news, and system alerts directly to your device.</p>
+            <div class="modal-actions">
+                <button class="modal-btn btn-cancel" onclick="closeModal('notifAskModal')">Cancel</button>
+                <button class="modal-btn btn-confirm" onclick="proceedToBrowserPerm()">Allow</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="cacheModal" class="modal-overlay">
+        <div class="modal-box">
+            <h3 class="modal-title" id="cacheTitle">Clear System Cache?</h3>
+            <div id="cacheContent">
+                <p class="modal-desc">This action will remove temporary files, local preferences, and cached images. Your account data will remain safe.</p>
+                <div class="modal-actions">
+                    <button class="modal-btn btn-cancel" onclick="closeModal('cacheModal')">Cancel</button>
+                    <button class="modal-btn btn-confirm" onclick="executeClearCache()">Yes, Clear</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="resultModal" class="modal-overlay">
+        <div class="modal-box">
+            <h3 class="modal-title" id="resTitle">Success</h3>
+            <p class="modal-desc" id="resDesc">Operation completed successfully.</p>
+            <div class="modal-actions">
+                <button class="modal-btn btn-full" onclick="closeModal('resultModal')">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="footer.js"></script>
+    <script>
+        function openModal(id) { 
+            // Reset Cache Modal State if reopening
+            if(id === 'cacheModal') {
+                document.getElementById('cacheTitle').innerText = "Clear System Cache?";
+                document.getElementById('cacheTitle').style.color = "white"; // Reset color
+                document.getElementById('cacheContent').innerHTML = `
+                    <p class="modal-desc">This action will remove temporary files, local preferences, and cached images. Your account data will remain safe.</p>
+                    <div class="modal-actions">
+                        <button class="modal-btn btn-cancel" onclick="closeModal('cacheModal')">Cancel</button>
+                        <button class="modal-btn btn-confirm" onclick="executeClearCache()">Yes, Clear</button>
+                    </div>
+                `;
+            }
+            document.getElementById(id).classList.add('active'); 
+        }
+        
+        function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+
+        function showResultModal(title, desc, isSuccess = false, isError = false) {
+            const t = document.getElementById('resTitle');
+            const d = document.getElementById('resDesc');
+            t.innerText = title; d.innerText = desc;
+            
+            // Manage Colors
+            t.classList.remove('text-success', 'text-error');
+            if(isSuccess) t.classList.add('text-success');
+            if(isError) t.classList.add('text-error');
+            
+            openModal('resultModal');
+        }
+
+        // THEME INFO
+        function showThemeInfo() {
+            showResultModal("Dark Mode Active", "Currently, only Dark Mode is available. Light Mode will be introduced in future updates.", false);
+        }
+
+        // NOTIFICATION LOGIC
+        const notifToggle = document.getElementById('notif-toggle');
+        function handleNotifClick(e) {
+            e.stopPropagation(); 
+            if (notifToggle.classList.contains('active')) {
+                notifToggle.classList.remove('active');
+                localStorage.setItem('notifEnabled', 'false');
+            } else {
+                openModal('notifAskModal');
+            }
+        }
+
+        function proceedToBrowserPerm() {
+            closeModal('notifAskModal');
+            if (!("Notification" in window)) return showResultModal("Error", "Browser does not support notifications.", false, true);
+            
+            Notification.requestPermission().then(permission => {
+                if (permission === "granted") {
+                    notifToggle.classList.add('active');
+                    localStorage.setItem('notifEnabled', 'true');
+                    showResultModal("Success", "Notifications enabled. You will receive updates.", true);
+                    new Notification("System Connected", { body: "Ameereyyy Portfolio is live." });
+                } else {
+                    showResultModal("Permission Denied", "Please allow notifications from browser settings.", false, true);
+                }
+            });
+        }
+
+        // CLEAR CACHE LOGIC (With Spinner)
+        function executeClearCache() {
+            const content = document.getElementById('cacheContent');
+            const title = document.getElementById('cacheTitle');
+            
+            // Show Spinner
+            title.innerText = "Processing...";
+            title.style.color = "white";
+            content.innerHTML = `
+                <div class="spinner"></div>
+                <p class="modal-desc">Cleaning temporary files...</p>
+            `;
+
+            // Simulate Delay
+            setTimeout(() => {
+                sessionStorage.clear();
+                localStorage.clear();
+                
+                document.querySelectorAll('.toggle-switch').forEach(el => el.classList.remove('active'));
+                
+                closeModal('cacheModal'); // Close Spinner Modal
+                
+                // Show Success Modal
+                showResultModal("Completed", "System Cache Cleared Successfully.", true);
+            }, 1500);
+        }
+
+        // LOAD SAVED STATES & FOOTER
+        window.onload = function() {
+            if(localStorage.getItem('notifEnabled') === 'true' && Notification.permission === 'granted') {
+                notifToggle.classList.add('active');
+            }
+            fetch('footer.html').then(r => r.text()).then(d => {
+                document.getElementById('global-footer').innerHTML = d;
+            });
+        };
+    </script>
+
+    <script src="global-script.js"></script>
+</body>
+</html>
