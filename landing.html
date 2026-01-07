@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ameereyyy Portfolio</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
+
+:root {
+    --bg-color: #050505;
+    --text-main: #ffffff;
+    --text-sec: #a1a1aa;
+    --glass: rgba(15, 15, 15, 0.9);
+    --border: rgba(255, 255, 255, 0.1);
+}
+
+* {
+    margin: 0; padding: 0; box-sizing: border-box;
+    font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+    background-color: var(--bg-color); color: var(--text-main);
+    overflow-x: hidden; min-height: 100vh;
+    -webkit-user-select: none; user-select: none;
+}
+
+/* Floating Background Animation */
+.bg-animation {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    z-index: -1; background: radial-gradient(circle at 50% 50%, #11111f, #050505);
+    overflow: hidden;
+}
+.blob {
+    position: absolute; width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(76, 29, 149, 0.12) 0%, rgba(0,0,0,0) 70%);
+    border-radius: 50%; animation: float 12s infinite ease-in-out alternate;
+}
+.blob:nth-child(2) { 
+    bottom: -150px; right: -150px; 
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.08) 0%, rgba(0,0,0,0) 70%);
+    animation-delay: -6s; 
+}
+@keyframes float { 0% { transform: translate(0, 0); } 100% { transform: translate(40px, 40px); } }
+
+body.locked { overflow: hidden; height: 100vh; }
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: #000; }
+::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+
+header {
+    position: fixed; top: 0; width: 100%;
+    padding: 15px 6%; display: flex; justify-content: space-between; align-items: center;
+    background: var(--glass); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    z-index: 1000; border-bottom: 1px solid var(--border);
+}
+
+.brand { display: flex; flex-direction: column; cursor: pointer; text-decoration: none; }
+
+/* BRAND GRADIENT FIX */
+.brand-name {
+    font-size: 1.4rem; font-weight: 800; letter-spacing: 0.5px;
+    background: -webkit-linear-gradient(120deg, #ffffff 30%, #666666 100%);
+    background: linear-gradient(120deg, #ffffff 30%, #666666 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    display: inline-block;
+}
+
+.brand-sub {
+    font-size: 0.65rem; letter-spacing: 3px; color: var(--text-sec); 
+    text-transform: uppercase; margin-top: 2px; font-weight: 600;
+}
+
+.nav-icons { display: flex; align-items: center; gap: 12px; }
+
+.icon-btn {
+    background: rgba(255,255,255,0.04); border: 1px solid var(--border); 
+    cursor: pointer; color: white; width: 42px; height: 42px;
+    border-radius: 12px; display: flex; align-items: center; justify-content: center;
+    transition: 0.3s;
+}
+.icon-btn:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); }
+.icon-btn svg { width: 20px; height: 20px; stroke: #ddd; stroke-width: 1.8; fill: none; }
+
+/* CENTERED MENUS */
+.menu-dropdown {
+    position: fixed; top: 70px; left: 50%; 
+    transform: translateX(-50%) translateY(-15px) scale(0.95);
+    background: #0f0f0f; border: 1px solid var(--border);
+    padding: 10px; border-radius: 16px;
+    display: flex; flex-direction: row; gap: 8px;
+    max-width: 90vw; overflow-x: auto; white-space: nowrap;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.9);
+    opacity: 0; pointer-events: none;
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    z-index: 999; scrollbar-width: none;
+}
+.menu-dropdown::-webkit-scrollbar { display: none; }
+.menu-dropdown.active { 
+    opacity: 1; transform: translateX(-50%) translateY(0) scale(1); pointer-events: all; 
+}
+
+.menu-item {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    min-width: 75px; height: 75px; padding: 8px;
+    background: rgba(255,255,255,0.03); border-radius: 10px;
+    text-decoration: none; color: var(--text-sec); transition: 0.2s;
+    border: 1px solid transparent;
+}
+.menu-item:hover {
+    background: rgba(255,255,255,0.08); color: white; border-color: rgba(255,255,255,0.1);
+}
+.menu-item svg { width: 22px; height: 22px; margin-bottom: 6px; stroke: currentColor; }
+.menu-item span { font-size: 0.6rem; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; }
+
+section {
+    padding: 0 8%; min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: center;
+    border-bottom: 1px solid rgba(255,255,255,0.02); position: relative;
+}
+
+#home { align-items: flex-start; text-align: left; } 
+.hero-content { max-width: 900px; z-index: 2; }
+
+/* Initial state: White color, no gradient yet */
+#type-title { 
+    font-size: clamp(2.5rem, 8vw, 4.5rem); font-weight: 800; line-height: 1.1;
+    margin-bottom: 25px; min-height: 130px; color: #ffffff;
+    transition: all 0.8s ease;
+}
+#type-desc { 
+    font-size: clamp(1rem, 4vw, 1.2rem); color: var(--text-sec); 
+    margin-bottom: 45px; min-height: 80px; line-height: 1.6; max-width: 800px;
+    display: inline-block; transition: all 0.8s ease;
+}
+
+/* Classes added AFTER typing finishes to show gradient */
+.finished-title {
+    background: linear-gradient(135deg, #ffffff 30%, #888888);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; color: transparent;
+}
+.finished-desc {
+    background: linear-gradient(to right, #e0e0e0, #909090);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; color: transparent;
+}
+
+.cursor {
+    display: inline-block; width: 3px; height: 1em; background-color: #ffffff;
+    animation: blink 1s infinite; vertical-align: text-bottom;
+}
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+.btn {
+    padding: 15px 40px; 
+    background: transparent; color: #fff; 
+    border: 1px solid rgba(255,255,255,0.5);
+    text-decoration: none; font-weight: 700; 
+    font-size: 0.9rem; border-radius: 50px;
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    transition: all 0.3s ease; position: relative;
+}
+.btn:hover { 
+    background: #fff; color: #000; border-color: #fff;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.3); transform: translateY(-2px);
+}
+
+.btn.is-loading { pointer-events: none; opacity: 0.9; }
+.loading-spinner {
+    display: none; width: 18px; height: 18px;
+    border: 2px solid rgba(255,255,255,0.3); border-top-color: currentColor; 
+    border-radius: 50%; animation: spin 0.8s linear infinite;
+}
+.btn.is-loading .loading-spinner { display: block; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.section-title { 
+    font-size: 3.5rem; margin-bottom: 25px; font-weight: 800; letter-spacing: -1.5px;
+}
+/* Updated Gradients for New Titles */
+#story .section-title { background: linear-gradient(to right, #fff, #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+#arsenal .section-title { background: linear-gradient(to right, #fff, #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+#projects .section-title { background: linear-gradient(to right, #fff, #10b981); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+#future .section-title { background: linear-gradient(to right, #fff, #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+#contact .section-title { background: linear-gradient(to right, #fff, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+.section-desc { 
+    font-size: 1.15rem; color: #b0b0b0; line-height: 1.8; margin-bottom: 35px; max-width: 800px; 
+}
+.section-desc p { margin-bottom: 20px; }
+
+.reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s ease-out; }
+.reveal.active { opacity: 1; transform: translateY(0); }
+
+#footer-placeholder { width: 100%; }
+#hidden-content-wrapper { display: none; }
+
+#hero-cta { opacity: 0; transition: opacity 1.5s ease; margin-top: 20px; }
+#hero-cta.visible { opacity: 1; }
+</style>
+</head>
+<body class="locked">
+
+<div class="bg-animation"><div class="blob"></div><div class="blob"></div></div>
+
+<header>
+    <a href="#home" class="brand" onclick="window.scrollTo(0,0)">
+        <span class="brand-name">Ameereyyy</span>
+        <span class="brand-sub">portfolio</span>
+    </a>
+
+    <div class="nav-icons">
+        <div style="position: relative;">
+            <button class="icon-btn" onclick="toggleMenu('arrowMenu')">
+                <svg viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+            </button>
+        </div>
+        <div style="position: relative;">
+            <button class="icon-btn" onclick="toggleMenu('homeMenu')">
+                <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            </button>
+        </div>
+    </div>
+</header>
+
+<div id="arrowMenu" class="menu-dropdown">
+    <a href="settings.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15..."></path></svg><span>Settings</span></a>
+    <a href="update.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"></path><path d="M16 21h5v-5"></path></svg><span>Update</span></a>
+    <a href="feedback.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg><span>Feedback</span></a>
+    <a href="report.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><span>Report</span></a>
+</div>
+
+<div id="homeMenu" class="menu-dropdown">
+    <a href="#story" onclick="closeMenus()" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg><span>Story</span></a>
+    <a href="#arsenal" onclick="closeMenus()" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg><span>Arsenal</span></a>
+    <a href="#projects" onclick="closeMenus()" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg><span>Projects</span></a>
+    <a href="#future" onclick="closeMenus()" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1 4-10z"></path></svg><span>Future</span></a>
+    <a href="#contact" onclick="closeMenus()" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg><span>Contact</span></a>
+</div>
+
+<section id="home">
+    <div class="hero-content">
+        <h1 id="type-title"><span id="text1"></span><span class="cursor" id="cursor1"></span></h1>
+        <p id="type-desc"><span id="text2"></span><span class="cursor" id="cursor2" style="display:none;"></span></p>
+        
+        <div id="hero-cta">
+            <a href="#story" class="btn section-btn">View My Page <span class="loading-spinner"></span></a>
+        </div>
+    </div>
+</section>
+
+<div id="hidden-content-wrapper">
+    
+    <section id="story" class="reveal">
+        <h2 class="section-title">The Genesis</h2>
+        <div class="section-desc">
+            <p>We are stardust exploring the digital realm. Born from the chaos of atoms, I evolved to bring order through logic. My journey is not just about writing code; it is about the universe experiencing itself through the infinite possibilities of software.</p>
+            <p>From the first spark of curiosity to mastering the language of machines, I am constantly defining my existence in this digital cosmos.</p>
+        </div>
+        <a href="story.html" class="btn section-btn">Explore My Journey <span class="loading-spinner"></span></a>
+    </section>
+
+    <section id="arsenal" class="reveal">
+        <h2 class="section-title">Fundamental Forces</h2>
+        <div class="section-desc">
+            <p>Tools are extensions of the mind. Just as the universe wields gravity and light, I harness the fundamental forces of C#, Unity, and the Web to bend pixels to my will.</p>
+            <p>My arsenal is a collection of cosmic instruments—languages and engines designed to shape the void into structured, interactive realities.</p>
+        </div>
+        <a href="arsenal.html" class="btn section-btn">Inspect My Arsenal <span class="loading-spinner"></span></a>
+    </section>
+
+    <section id="projects" class="reveal">
+        <h2 class="section-title">The Multiverse</h2>
+        <div class="section-desc">
+            <p>Every line of code is a building block of a new reality. My creations are not mere applications; they are self-contained galaxies, living and breathing within the silicon lattice.</p>
+            <p>From immersive game levels to complex web ecosystems, each project stands as a monument in the digital ether—a testament to the power of creation.</p>
+        </div>
+        <a href="projects.html" class="btn section-btn">See What I Built <span class="loading-spinner"></span></a>
+    </section>
+
+    <section id="future" class="reveal">
+        <h2 class="section-title">The Singularity</h2>
+        <div class="section-desc">
+            <p>The universe expands, and so must we. My vision transcends the present, aiming to engineer the operating systems of tomorrow and architect the next era of human-digital evolution.</p>
+            <p>I am building towards a singularity—a seamless ecosystem of Hardware and Software that will redefine how humanity interacts with the digital dimension.</p>
+        </div>
+        <a href="future.html" class="btn section-btn">Read The Vision <span class="loading-spinner"></span></a>
+    </section>
+
+    <section id="contact" class="reveal">
+        <h2 class="section-title">Cosmic Signal</h2>
+        <div class="section-desc">
+            <p>Across the vast network, connections spark innovation. We are all nodes in this grand design.</p>
+            <p>If you seek to collaborate on building the future, transmit your signal through the ether. Let us align our trajectories and create something that echoes through time.</p>
+        </div>
+        <a href="contact.html" class="btn section-btn">Connect with Ameereyyy <span class="loading-spinner"></span></a>
+    </section>
+
+    <div id="footer-placeholder"></div>
+</div> 
+
+<script>
+    // Updated Hero Text for Big Bang Theme
+    const titleText = "From the Big Bang,\nTo a Digital Universe.";
+    const descText = "It began 13.8 billion years ago—a singular explosion creating time, matter, and stardust. Through the epochs of cosmic evolution, atoms became life, and life became intelligence. Today, standing at the peak of this evolution, I am crafting the next chapter: a boundless Digital Ecosystem for the world.";
+    
+    const text1Element = document.getElementById('text1');
+    const text2Element = document.getElementById('text2');
+    const titleContainer = document.getElementById('type-title');
+    const descContainer = document.getElementById('type-desc');
+    const cursor1 = document.getElementById('cursor1');
+    const cursor2 = document.getElementById('cursor2');
+    const hiddenWrapper = document.getElementById('hidden-content-wrapper');
+    const heroCta = document.getElementById('hero-cta');
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) { entry.target.classList.add('active'); }
+        });
+    }, { threshold: 0.1 });
+
+    function initScrollAnimations() {
+        const hiddenElements = document.querySelectorAll('.reveal');
+        hiddenElements.forEach((el) => observer.observe(el));
+    }
+
+    function typeWriter(text, element, speed, callback) {
+        let i = 0;
+        function type() {
+            if (i < text.length) {
+                element.innerHTML += (text.charAt(i) === "\n") ? "<br>" : text.charAt(i);
+                i++; setTimeout(type, speed);
+            } else { if (callback) callback(); }
+        } type();
+    }
+
+    function showFullContent() {
+        titleContainer.classList.add('finished-title');
+        descContainer.classList.add('finished-desc');
+        
+        heroCta.classList.add('visible');
+        hiddenWrapper.style.display = 'block';
+        setTimeout(() => {
+            document.body.classList.remove('locked');
+            initScrollAnimations(); 
+            loadFooter();
+            initButtonLoaders();
+        }, 100);
+    }
+
+    function loadFooter() {
+        fetch('footer.html')
+            .then(res => res.ok ? res.text() : null)
+            .then(data => { if(data) document.getElementById('footer-placeholder').innerHTML = data; });
+    }
+
+    function initButtonLoaders() {
+        const sectionButtons = document.querySelectorAll('.section-btn');
+        sectionButtons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                const targetUrl = this.getAttribute('href');
+                if (targetUrl.startsWith('#')) { return; }
+                e.preventDefault(); 
+                const self = this;
+                this.classList.add('is-loading');
+                setTimeout(() => {
+                    self.classList.remove('is-loading');
+                    window.location.href = targetUrl;
+                }, 1500);
+            });
+        });
+    }
+
+    window.onload = function() {
+        if (sessionStorage.getItem('introShown')) {
+            text1Element.innerHTML = titleText.replace(/\n/g, "<br>");
+            text2Element.innerHTML = descText;
+            cursor1.style.display = 'none'; cursor2.style.display = 'none';
+            titleContainer.classList.add('finished-title');
+            descContainer.classList.add('finished-desc');
+            showFullContent();
+        } else {
+            typeWriter(titleText, text1Element, 40, function() {
+                cursor1.style.display = 'none'; cursor2.style.display = 'inline-block';
+                setTimeout(function(){
+                    typeWriter(descText, text2Element, 20, function() {
+                        cursor2.style.display = 'none';
+                        showFullContent();
+                        sessionStorage.setItem('introShown', 'true');
+                    });
+                }, 300);
+            });
+        }
+    };
+
+    function toggleMenu(menuId) {
+        const menu = document.getElementById(menuId);
+        const allMenus = document.querySelectorAll('.menu-dropdown');
+        allMenus.forEach(m => { if(m.id !== menuId) m.classList.remove('active'); });
+        menu.classList.toggle('active');
+    }
+
+    function closeMenus() {
+        document.querySelectorAll('.menu-dropdown').forEach(m => m.classList.remove('active'));
+    }
+
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.nav-icons') && !e.target.closest('.menu-dropdown')) { closeMenus(); }
+    });
+</script>
+
+</body>
+</html>

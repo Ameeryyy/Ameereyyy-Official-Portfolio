@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Support Center - Ameereyyy</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap');
+
+:root { 
+    --bg-color: #050505; 
+    --glass-card: rgba(20, 20, 20, 0.6); 
+    --text-main: #ffffff; 
+    --text-sec: #999999; 
+    --accent-red: #ef4444;
+    --accent-blue: #3399ff;
+    --accent-green: #10b981;
+    --border: rgba(255, 255, 255, 0.08); 
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+
+body { 
+    background-color: var(--bg-color); 
+    color: var(--text-main); 
+    user-select: none; 
+    display: flex; flex-direction: column; min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* --- COSMIC BACKGROUND --- */
+.bg-animation {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    z-index: -1; background: radial-gradient(circle at 50% 50%, #11111f, #050505);
+    overflow: hidden;
+}
+.blob {
+    position: absolute; width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.05) 0%, rgba(0,0,0,0) 70%);
+    border-radius: 50%; animation: float 12s infinite ease-in-out alternate;
+}
+.blob:nth-child(2) { 
+    bottom: -150px; right: -150px; 
+    background: radial-gradient(circle, rgba(51, 153, 255, 0.1) 0%, rgba(0,0,0,0) 70%);
+    animation-delay: -6s; 
+}
+@keyframes float { 0% { transform: translate(0, 0); } 100% { transform: translate(40px, 40px); } }
+
+/* HEADER */
+header {
+    position: fixed; top: 0; width: 100%; padding: 20px 6%;
+    display: flex; justify-content: space-between; align-items: center;
+    background: rgba(5, 5, 5, 0.7); backdrop-filter: blur(15px);
+    z-index: 1000; border-bottom: 1px solid var(--border);
+}
+.page-title { 
+    font-size: 1.3rem; font-weight: 800; letter-spacing: 0.5px;
+    background: linear-gradient(to right, #fff, #9ca3af);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.close-btn { 
+    text-decoration: none; color: white; font-size: 1.5rem; 
+    width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
+    background: rgba(255,255,255,0.05); border-radius: 50%; border: 1px solid var(--border);
+    transition: 0.3s;
+}
+.close-btn:hover { background: rgba(255,255,255,0.1); transform: rotate(90deg); border-color: rgba(255,255,255,0.3); }
+
+/* CONTAINER */
+.container { 
+    padding: 110px 6% 40px; 
+    max-width: 1000px; 
+    margin: 0 auto; 
+    flex: 1; width: 100%; 
+}
+
+/* INTRO */
+.intro-text { text-align: center; margin-bottom: 50px; }
+.intro-title { font-size: 2rem; font-weight: 800; margin-bottom: 10px; color: #fff; }
+.intro-desc { color: var(--text-sec); font-size: 1rem; max-width: 600px; margin: 0 auto; }
+
+/* SUPPORT GRID */
+.support-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+}
+
+/* CARDS */
+.support-card {
+    background: var(--glass-card);
+    border: 1px solid var(--border);
+    padding: 40px 20px;
+    border-radius: 20px;
+    text-align: center;
+    text-decoration: none;
+    color: white;
+    transition: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 220px;
+    backdrop-filter: blur(10px);
+}
+
+.card-icon {
+    width: 60px; height: 60px; margin-bottom: 20px;
+    fill: #666; transition: 0.4s;
+}
+.card-title { font-size: 1.4rem; font-weight: 700; margin-bottom: 8px; }
+.card-sub { font-size: 0.9rem; color: var(--text-sec); }
+
+/* HOVER EFFECTS (Specific Colors) */
+
+/* Report (Red) */
+.card-report:hover { 
+    border-color: var(--accent-red); transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(239, 68, 68, 0.15);
+}
+.card-report:hover .card-icon { fill: var(--accent-red); transform: scale(1.1); }
+
+/* Update (Blue) */
+.card-update:hover { 
+    border-color: var(--accent-blue); transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(51, 153, 255, 0.15);
+}
+.card-update:hover .card-icon { fill: var(--accent-blue); transform: scale(1.1); }
+
+/* Help (Green) */
+.card-help:hover { 
+    border-color: var(--accent-green); transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(16, 185, 129, 0.15);
+}
+.card-help:hover .card-icon { fill: var(--accent-green); transform: scale(1.1); }
+
+
+#footer-placeholder { width: 100%; margin-top: 50px; }
+
+/* =========================================
+   DESKTOP MEDIA QUERY
+   ========================================= */
+@media (min-width: 900px) {
+    .container { padding-top: 140px; }
+    .support-grid { grid-template-columns: repeat(3, 1fr); gap: 30px; }
+}
+</style>
+</head>
+<body>
+
+<div class="bg-animation"><div class="blob"></div><div class="blob"></div></div>
+
+<header>
+    <div class="page-title">Support Center</div>
+    <a href="landing.html" class="close-btn">&times;</a>
+</header>
+
+<div class="container">
+    
+    <div class="intro-text">
+        <h1 class="intro-title">How can we help?</h1>
+        <p class="intro-desc">Select a category below to proceed with your request. We are here to assist you.</p>
+    </div>
+
+    <div class="support-grid">
+        
+        <a href="report.html" class="support-card card-report">
+            <svg class="card-icon" viewBox="0 0 24 24">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+            </svg>
+            <div class="card-title">Report Issue</div>
+            <div class="card-sub">Fix bugs & glitches</div>
+        </a>
+
+        <a href="update.html" class="support-card card-update">
+            <svg class="card-icon" viewBox="0 0 24 24">
+                <path d="M21 10.12h-6.78l2.74-2.82c-2.73-2.7-7.15-2.8-9.88-.1-2.73 2.71-2.73 7.08 0 9.79s7.15 2.71 9.88 0C18.32 15.65 19 14.08 19 12.1h2c0 1.98-.88 4.55-2.64 6.29-3.51 3.48-9.21 3.48-12.72 0-3.5-3.47-3.53-9.11-.02-12.58s9.14-3.47 12.65 0L21 3v7.12zM12.5 8v4.25l3.5 2.08-.72 1.21L11 13V8h1.5z"/>
+            </svg>
+            <div class="card-title">Request Feature</div>
+            <div class="card-sub">Suggest improvements</div>
+        </a>
+
+        <a href="help.html" class="support-card card-help">
+            <svg class="card-icon" viewBox="0 0 24 24">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/>
+            </svg>
+            <div class="card-title">Help Center</div>
+            <div class="card-sub">FAQ & Guides</div>
+        </a>
+
+    </div>
+
+</div>
+
+<div id="footer-placeholder"></div>
+
+<script>
+    // Load Footer
+    fetch('footer.html')
+        .then(res => res.text())
+        .then(data => document.getElementById('footer-placeholder').innerHTML = data);
+</script>
+
+</body>
+</html>

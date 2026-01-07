@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Report Issue - Ameereyyy</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap');
+
+:root { 
+    --bg-color: #050505; 
+    --glass-card: rgba(20, 20, 20, 0.6); 
+    --text-main: #ffffff; 
+    --text-sec: #999999; 
+    --accent-red: #ef4444;   
+    --accent-green: #10b981;
+    --border: rgba(255, 255, 255, 0.08); 
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+
+body { 
+    background-color: var(--bg-color); 
+    color: var(--text-main); 
+    user-select: none; 
+    display: flex; flex-direction: column; min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* --- COSMIC BACKGROUND --- */
+.bg-animation {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    z-index: -1; background: radial-gradient(circle at 50% 50%, #11111f, #050505);
+    overflow: hidden;
+}
+.blob {
+    position: absolute; width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(239, 68, 68, 0.1) 0%, rgba(0,0,0,0) 70%);
+    border-radius: 50%; animation: float 12s infinite ease-in-out alternate;
+}
+.blob:nth-child(2) { 
+    bottom: -150px; right: -150px; 
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, rgba(0,0,0,0) 70%);
+    animation-delay: -6s; 
+}
+@keyframes float { 0% { transform: translate(0, 0); } 100% { transform: translate(40px, 40px); } }
+
+/* HEADER */
+header {
+    position: fixed; top: 0; width: 100%; padding: 20px 6%;
+    display: flex; justify-content: space-between; align-items: center;
+    background: rgba(5, 5, 5, 0.7); backdrop-filter: blur(15px);
+    z-index: 1000; border-bottom: 1px solid var(--border);
+}
+.page-title { 
+    font-size: 1.3rem; font-weight: 800; letter-spacing: 0.5px;
+    background: linear-gradient(to right, #fff, #9ca3af);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.close-btn { 
+    text-decoration: none; color: white; font-size: 1.5rem; 
+    width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
+    background: rgba(255,255,255,0.05); border-radius: 50%; border: 1px solid var(--border);
+    transition: 0.3s;
+}
+.close-btn:hover { background: rgba(255,255,255,0.1); transform: rotate(90deg); border-color: rgba(255,255,255,0.3); }
+
+/* CONTAINER */
+.container { 
+    padding: 110px 6% 40px; 
+    max-width: 600px; 
+    margin: 0 auto; 
+    flex: 1; width: 100%; 
+}
+
+/* INTRO */
+.intro-text { text-align: center; margin-bottom: 40px; }
+.intro-title { font-size: 1.8rem; font-weight: 800; margin-bottom: 8px; color: #fff; }
+.intro-desc { color: var(--text-sec); font-size: 0.9rem; max-width: 400px; margin: 0 auto; line-height: 1.6; }
+
+/* FORM FIELDS */
+.form-group { margin-bottom: 25px; }
+.label { 
+    display: block; color: var(--text-sec); font-size: 0.75rem; 
+    font-weight: 600; margin-bottom: 8px; letter-spacing: 1px; text-transform: uppercase;
+}
+.input-field, .textarea-field {
+    width: 100%; background: rgba(255,255,255,0.05); 
+    border: 1px solid var(--border); padding: 16px; color: #fff;
+    border-radius: 12px; font-size: 0.9rem; outline: none; transition: 0.3s;
+    font-family: 'Inter', sans-serif;
+}
+.input-field:focus, .textarea-field:focus { 
+    border-color: var(--accent-red); background: rgba(239, 68, 68, 0.05); 
+}
+.textarea-field { height: 120px; resize: none; }
+.char-counter { text-align: right; font-size: 0.7rem; color: #555; margin-top: 6px; }
+
+/* CUSTOM DROPDOWN */
+.custom-select-wrapper { position: relative; width: 100%; }
+.custom-select-trigger {
+    background: rgba(255,255,255,0.05); border: 1px solid var(--border); padding: 16px;
+    color: #999; border-radius: 12px; cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+    font-size: 0.9rem; transition: 0.3s;
+}
+.custom-select-trigger:after { content: '▼'; font-size: 0.7rem; color: #666; }
+.custom-options {
+    position: absolute; top: 110%; left: 0; width: 100%;
+    background: #111; border: 1px solid var(--border); border-radius: 12px;
+    overflow: hidden; opacity: 0; visibility: hidden; transform: translateY(-10px);
+    transition: 0.3s; z-index: 10; box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+}
+.custom-options.open { opacity: 1; visibility: visible; transform: translateY(0); }
+.custom-option { padding: 15px; cursor: pointer; transition: 0.2s; color: #ccc; border-bottom: 1px solid #222; }
+.custom-option:hover { background: rgba(255,255,255,0.1); color: white; }
+
+/* HIDDEN SUBJECT ROW */
+.subject-row { display: none; margin-top: 20px; animation: slideDown 0.3s ease; }
+.subject-row.visible { display: block; }
+@keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+/* FILE UPLOAD */
+.file-box {
+    border: 1px dashed var(--border); background: rgba(255,255,255,0.02); 
+    padding: 25px; text-align: center; border-radius: 12px; cursor: pointer; transition: 0.3s;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+}
+.file-box:hover { border-color: var(--accent-red); background: rgba(239, 68, 68, 0.05); }
+.file-icon { width: 24px; height: 24px; stroke: #666; }
+.file-text { font-size: 0.85rem; color: #888; }
+.file-name { color: var(--accent-red); font-size: 0.85rem; margin-top: 5px; font-weight: 600; }
+
+/* SUBMIT BUTTON */
+.submit-btn {
+    width: 100%; padding: 18px; background: #fff; color: #000; 
+    font-weight: 700; border: none; border-radius: 12px; cursor: pointer; 
+    font-size: 1rem; margin-top: 20px; transition: 0.3s;
+}
+.submit-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 20px rgba(255,255,255,0.2); }
+.submit-btn:active { transform: scale(0.98); }
+.submit-btn.loading { opacity: 0.7; pointer-events: none; }
+.submit-btn.success { background: var(--accent-green); color: #fff; }
+
+/* MODAL */
+.modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.85); backdrop-filter: blur(5px); 
+    display: none; align-items: center; justify-content: center; 
+    z-index: 2000; opacity: 0; transition: opacity 0.3s;
+}
+.modal-overlay.active { display: flex; opacity: 1; }
+
+.modal-box {
+    background: #111; border: 1px solid #333; 
+    padding: 30px; border-radius: 24px;
+    text-align: center; width: 85%; max-width: 320px; 
+    transform: scale(0.9); transition: 0.3s;
+    display: flex; flex-direction: column; align-items: center;
+}
+.modal-overlay.active .modal-box { transform: scale(1); }
+
+.modal-icon { width: 48px; height: 48px; margin-bottom: 15px; }
+.icon-error { stroke: var(--accent-red); fill: none; }
+.icon-success { stroke: var(--accent-green); fill: none; }
+
+.modal-title { font-size: 1.2rem; margin-bottom: 8px; font-weight: 700; color: white; }
+.modal-desc { color: #888; font-size: 0.85rem; margin-bottom: 25px; line-height: 1.5; }
+
+.modal-btn { 
+    width: 100%; padding: 12px; border-radius: 12px; border: none; 
+    background: #222; color: #fff; cursor: pointer; font-weight: 600; font-size: 0.9rem; 
+}
+.modal-btn:hover { background: #333; }
+
+#footer-placeholder { width: 100%; margin-top: 50px; }
+
+/* =========================================
+   DESKTOP MEDIA QUERY
+   ========================================= */
+@media (min-width: 900px) {
+    .container {
+        max-width: 1100px;
+        padding-top: 130px;
+        display: grid;
+        grid-template-columns: 350px 1fr; /* Sidebar | Form */
+        gap: 60px;
+        align-items: start;
+    }
+
+    .intro-text {
+        text-align: left;
+        position: sticky;
+        top: 130px;
+        margin-bottom: 0;
+    }
+    .intro-title { font-size: 2.5rem; line-height: 1.1; margin-bottom: 15px; }
+    .intro-desc { margin: 0; max-width: 100%; font-size: 1rem; }
+
+    #reportForm {
+        background: rgba(255, 255, 255, 0.02);
+        padding: 40px;
+        border-radius: 20px;
+        border: 1px solid var(--border);
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="bg-animation"><div class="blob"></div><div class="blob"></div></div>
+
+<header>
+    <div class="page-title">Report Issue</div>
+    <a href="support.html" class="close-btn">&times;</a>
+</header>
+
+<div class="container">
+    
+    <div class="intro-text">
+        <h1 class="intro-title">Found a Glitch?</h1>
+        <p class="intro-desc">Help us maintain the ecosystem integrity by reporting any bugs or vulnerabilities you find.</p>
+    </div>
+
+    <form id="reportForm" onsubmit="event.preventDefault(); submitReport();">
+        
+        <div class="form-group">
+            <label class="label">Global Infinity ID</label>
+            <input type="text" class="input-field gid-input" placeholder="GID-XXXX-XXXX">
+        </div>
+
+        <div class="form-group">
+            <label class="label">Issue Type</label>
+            <div class="custom-select-wrapper" onclick="toggleDropdown()">
+                <div class="custom-select-trigger" id="dropdownTrigger">Select Category</div>
+                <div class="custom-options" id="dropdownOptions">
+                    <div class="custom-option" onclick="selectOption('Visual Glitch')">Visual Glitch</div>
+                    <div class="custom-option" onclick="selectOption('Broken Link')">Broken Link</div>
+                    <div class="custom-option" onclick="selectOption('Performance Lag')">Performance Lag</div>
+                    <div class="custom-option" onclick="selectOption('Security Vulnerability')">Security Vulnerability</div>
+                    <div class="custom-option" onclick="selectOption('Other')">Other</div>
+                </div>
+                <input type="hidden" id="issueType">
+            </div>
+
+            <div class="subject-row" id="subjectRow">
+                <label class="label" style="margin-top: 15px;">Subject (Max 100 Chars)</label>
+                <input type="text" class="input-field" id="subjectInput" maxlength="100" placeholder="Enter subject..." oninput="updateCharCount(this, 'subCount', 100)">
+                <div class="char-counter" id="subCount">0 / 100</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="label">Description</label>
+            <textarea class="textarea-field" id="descInput" maxlength="1000" placeholder="Describe the error in detail..." oninput="updateCharCount(this, 'descCount', 1000)"></textarea>
+            <div class="char-counter" id="descCount">0 / 1000</div>
+        </div>
+
+        <div class="form-group">
+            <label class="label">Attachment (Optional)</label>
+            <label class="file-box">
+                <input type="file" accept=".zip,application/zip" hidden onchange="handleFile(this)">
+                <svg class="file-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                <span class="file-text" id="fileLabel">Tap to upload .zip file</span>
+                <div class="file-name" id="fileName"></div>
+            </label>
+        </div>
+
+        <button type="submit" class="submit-btn" id="submitBtn">Submit Report</button>
+    </form>
+
+</div>
+
+<div id="footer-placeholder"></div>
+
+<div id="customAlert" class="modal-overlay">
+    <div class="modal-box" id="alertContent">
+        </div>
+</div>
+
+<script>
+    // DROPDOWN LOGIC
+    function toggleDropdown() {
+        document.getElementById('dropdownOptions').classList.toggle('open');
+    }
+
+    window.addEventListener('click', function(e) {
+        if (!e.target.closest('.custom-select-wrapper')) {
+            document.getElementById('dropdownOptions').classList.remove('open');
+        }
+    });
+
+    function selectOption(val) {
+        document.getElementById('dropdownTrigger').innerText = val;
+        document.getElementById('dropdownTrigger').style.color = "white";
+        document.getElementById('issueType').value = val;
+
+        const subRow = document.getElementById('subjectRow');
+        if(val === 'Other') {
+            subRow.classList.add('visible');
+        } else {
+            subRow.classList.remove('visible');
+        }
+    }
+
+    // CHAR COUNTER
+    function updateCharCount(el, counterId, max) {
+        document.getElementById(counterId).innerText = el.value.length + " / " + max;
+    }
+
+    // FILE HANDLING
+    function handleFile(input) {
+        const label = document.getElementById('fileLabel');
+        const nameDisplay = document.getElementById('fileName');
+        const icon = document.querySelector('.file-icon');
+        
+        if (input.files && input.files[0]) {
+            const file = input.files[0];
+            if (file.name.toLowerCase().endsWith('.zip')) {
+                label.style.display = 'none';
+                icon.style.display = 'none';
+                nameDisplay.innerText = file.name;
+            } else {
+                showAlert("Invalid File", "Only .zip files are allowed.", true);
+                input.value = "";
+                label.style.display = 'block';
+                icon.style.display = 'block';
+                nameDisplay.innerText = "";
+            }
+        }
+    }
+
+    // SHOW ALERT
+    function showAlert(title, msg, isError) {
+        const modal = document.getElementById('customAlert');
+        const content = document.getElementById('alertContent');
+        
+        const icon = isError 
+            ? `<svg class="modal-icon icon-error" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>`
+            : `<svg class="modal-icon icon-success" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>`;
+
+        content.innerHTML = `
+            ${icon}
+            <h3 class="modal-title" style="color:${isError ? '#ef4444' : '#10b981'}">${title}</h3>
+            <p class="modal-desc">${msg}</p>
+            <button class="modal-btn" onclick="document.getElementById('customAlert').classList.remove('active')">OK</button>
+        `;
+        modal.classList.add('active');
+    }
+
+    // SUBMIT LOGIC
+    function submitReport() {
+        const gid = document.querySelector('.gid-input').value.trim();
+        const desc = document.getElementById('descInput').value.trim();
+        const category = document.getElementById('issueType').value;
+        const btn = document.getElementById('submitBtn');
+
+        if(!gid) return showAlert("Missing ID", "Please enter your Global Infinity ID.", true);
+        if(!category) return showAlert("Missing Category", "Please select an issue type.", true);
+        if(!desc) return showAlert("Empty Description", "Please describe the error.", true);
+
+        if(category === 'Other') {
+            const subj = document.getElementById('subjectInput').value.trim();
+            if(!subj) return showAlert("Missing Subject", "Please specify the subject for 'Other'.", true);
+        }
+
+        const originalText = btn.innerText;
+        btn.classList.add('loading');
+        btn.innerText = "Processing...";
+
+        setTimeout(() => {
+            btn.classList.remove('loading');
+            btn.classList.add('success');
+            btn.innerText = "Report Filed";
+
+            showAlert("Success", "Report submitted successfully.", false);
+
+            setTimeout(() => {
+                document.getElementById('reportForm').reset();
+                document.getElementById('dropdownTrigger').innerText = "Select Category";
+                document.getElementById('dropdownTrigger').style.color = "#999";
+                document.getElementById('subjectRow').classList.remove('visible');
+                document.getElementById('fileName').innerText = "";
+                document.getElementById('fileLabel').style.display = 'block';
+                document.querySelector('.file-icon').style.display = 'block';
+                document.getElementById('subCount').innerText = "0 / 100";
+                document.getElementById('descCount').innerText = "0 / 1000";
+                btn.classList.remove('success');
+                btn.innerText = originalText;
+            }, 2000);
+        }, 1500);
+    }
+
+    // Load Footer
+    fetch('footer.html')
+        .then(res => res.text())
+        .then(data => document.getElementById('footer-placeholder').innerHTML = data);
+</script>
+
+</body>
+</html>

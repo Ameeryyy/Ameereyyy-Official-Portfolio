@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Projects - Ameereyyy</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap');
+
+:root { 
+    --bg-color: #050505; 
+    --glass-card: rgba(20, 20, 20, 0.6); 
+    --text-main: #ffffff; 
+    --text-sec: #999999; 
+    --accent-green: #10b981; 
+    --border: rgba(255, 255, 255, 0.08);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+
+body { 
+    background-color: var(--bg-color); 
+    color: var(--text-main); 
+    user-select: none; 
+    display: flex; flex-direction: column; min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* --- COSMIC BACKGROUND --- */
+.bg-animation {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    z-index: -1; background: radial-gradient(circle at 50% 50%, #11111f, #050505);
+    overflow: hidden;
+}
+.blob {
+    position: absolute; width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, rgba(0,0,0,0) 70%);
+    border-radius: 50%; animation: float 12s infinite ease-in-out alternate;
+}
+.blob:nth-child(2) { 
+    bottom: -150px; right: -150px; 
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, rgba(0,0,0,0) 70%);
+    animation-delay: -6s; 
+}
+@keyframes float { 0% { transform: translate(0, 0); } 100% { transform: translate(40px, 40px); } }
+
+/* HEADER */
+header {
+    position: fixed; top: 0; width: 100%; padding: 20px 6%;
+    display: flex; justify-content: space-between; align-items: center;
+    background: rgba(5, 5, 5, 0.7); backdrop-filter: blur(15px);
+    z-index: 1000; border-bottom: 1px solid var(--border);
+}
+.page-title { 
+    font-size: 1.3rem; font-weight: 800; letter-spacing: 0.5px;
+    background: linear-gradient(to right, #fff, #9ca3af);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.close-btn { 
+    text-decoration: none; color: white; font-size: 1.5rem; 
+    width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
+    background: rgba(255,255,255,0.05); border-radius: 50%; border: 1px solid var(--border);
+    transition: 0.3s;
+}
+.close-btn:hover { background: rgba(255,255,255,0.1); transform: rotate(90deg); border-color: rgba(255,255,255,0.3); }
+
+/* CONTAINER */
+.container { 
+    padding: 110px 6% 40px; 
+    max-width: 900px; 
+    margin: 0 auto; 
+    flex: 1; width: 100%; 
+}
+
+/* SECTION HEADERS */
+.section-head { margin-bottom: 25px; margin-top: 40px; display: flex; align-items: center; gap: 15px; }
+.section-title { font-size: 0.9rem; color: var(--text-sec); text-transform: uppercase; letter-spacing: 2px; font-weight: 700; }
+.line { flex: 1; height: 1px; background: rgba(255,255,255,0.1); }
+
+/* 1. FEATURED CARD */
+.featured-card {
+    background: linear-gradient(145deg, rgba(20,20,20,0.8) 0%, rgba(5,5,5,0.9) 100%);
+    border: 1px solid rgba(16, 185, 129, 0.2); padding: 35px; border-radius: 20px;
+    position: relative; overflow: hidden; backdrop-filter: blur(10px);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3); transition: 0.3s;
+}
+.featured-card:hover { transform: translateY(-5px); border-color: var(--accent-green); }
+
+.feat-badge { 
+    background: rgba(16, 185, 129, 0.1); color: var(--accent-green); 
+    padding: 6px 12px; font-size: 0.7rem; border-radius: 50px; 
+    display: inline-block; margin-bottom: 15px; font-weight: 700; border: 1px solid rgba(16, 185, 129, 0.2);
+}
+.feat-title { font-size: 1.8rem; font-weight: 800; margin-bottom: 10px; color: white; }
+.feat-desc { color: var(--text-sec); font-size: 0.95rem; margin-bottom: 25px; max-width: 600px; line-height: 1.6; }
+
+.progress-container { width: 100%; background: rgba(255,255,255,0.1); height: 6px; border-radius: 10px; margin-top: 10px; overflow: hidden; }
+.progress-fill { height: 100%; background: var(--accent-green); width: 45%; border-radius: 10px; box-shadow: 0 0 10px var(--accent-green); }
+.progress-text { display: flex; justify-content: space-between; font-size: 0.8rem; color: #888; margin-top: 8px; font-weight: 600; }
+
+/* 2. STATS ROW */
+.stats-row { display: flex; gap: 15px; margin-bottom: 30px; flex-wrap: wrap; margin-top: 30px; }
+.stat-box {
+    flex: 1; background: var(--glass-card); border: 1px solid var(--border); 
+    padding: 20px; border-radius: 16px; text-align: center; min-width: 120px;
+    backdrop-filter: blur(5px);
+}
+.stat-num { font-size: 1.8rem; font-weight: 800; color: white; display: block; margin-bottom: 5px; }
+.stat-label { font-size: 0.7rem; color: #666; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+
+/* 3. PROJECT GRID (Updated Design) */
+.project-grid { 
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+    gap: 15px; margin-bottom: 40px; 
+}
+
+/* NEW CARD DESIGN - Fills empty space */
+.project-card {
+    background: var(--glass-card); border: 1px solid var(--border); 
+    padding: 25px; border-radius: 16px; cursor: pointer;
+    display: flex; align-items: center; justify-content: space-between; /* Spreads content */
+    min-height: 120px; transition: 0.3s; backdrop-filter: blur(5px);
+}
+.project-card:hover { 
+    border-color: rgba(255,255,255,0.3); transform: translateY(-5px); 
+    background: rgba(255,255,255,0.08);
+}
+
+.card-info { display: flex; flex-direction: column; gap: 5px; }
+.p-icon { font-size: 2rem; margin-bottom: 10px; display: block; }
+.p-title { font-size: 1.1rem; font-weight: 700; color: white; }
+.p-sub { font-size: 0.75rem; color: #666; text-transform: uppercase; letter-spacing: 0.5px; }
+
+/* Right Arrow Styling */
+.card-arrow {
+    width: 40px; height: 40px; background: rgba(255,255,255,0.05);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    border: 1px solid rgba(255,255,255,0.1); transition: 0.3s;
+}
+.card-arrow svg { width: 20px; height: 20px; fill: #888; transition: 0.3s; }
+
+.project-card:hover .card-arrow { background: var(--accent-green); border-color: var(--accent-green); }
+.project-card:hover .card-arrow svg { fill: #000; transform: translateX(2px); }
+
+
+/* 4. ROADMAP */
+.roadmap-container { display: flex; flex-direction: column; gap: 20px; }
+.roadmap-item { display: flex; gap: 20px; }
+.rm-time { 
+    color: var(--accent-green); font-weight: 700; font-size: 0.85rem; 
+    min-width: 70px; text-align: right; padding-top: 2px;
+}
+.rm-content { 
+    border-left: 2px solid rgba(255,255,255,0.1); padding-left: 25px; padding-bottom: 20px; position: relative;
+}
+.rm-content::before {
+    content: ''; position: absolute; left: -6px; top: 5px; 
+    width: 10px; height: 10px; background: #111; border: 2px solid #444; border-radius: 50%;
+}
+.rm-content.active::before { background: var(--accent-green); border-color: var(--accent-green); box-shadow: 0 0 10px var(--accent-green); }
+
+.rm-title { color: white; font-weight: 700; font-size: 1rem; }
+.rm-desc { color: var(--text-sec); font-size: 0.85rem; margin-top: 6px; line-height: 1.5; }
+
+/* MODAL */
+.modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
+    display: none; align-items: center; justify-content: center; z-index: 2000; opacity: 0; transition: 0.3s;
+}
+.modal-overlay.active { display: flex; opacity: 1; }
+.modal-box { 
+    background: #111; border: 1px solid rgba(255,255,255,0.1); 
+    padding: 40px; border-radius: 20px; text-align: center; 
+    width: 85%; max-width: 350px; transform: scale(0.9); transition: 0.3s; 
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+}
+.modal-overlay.active .modal-box { transform: scale(1); }
+
+.modal-title { font-size: 1.4rem; margin-bottom: 10px; color: white; font-weight: 800; }
+.modal-desc { color: #aaa; margin-bottom: 25px; font-size: 0.9rem; line-height: 1.5; }
+.modal-close-btn { 
+    background: white; color: black; padding: 12px 0; width: 100%; border: none; 
+    border-radius: 10px; cursor: pointer; font-weight: 700; transition: 0.2s;
+}
+.modal-close-btn:hover { background: #e0e0e0; }
+
+#footer-placeholder { width: 100%; margin-top: 40px; }
+
+/* Desktop Adjustments */
+@media (min-width: 900px) {
+    .container { padding-top: 130px; }
+    .featured-card { display: flex; flex-direction: column; justify-content: center; min-height: 250px; }
+    .stats-row { gap: 30px; }
+    .project-grid { grid-template-columns: repeat(2, 1fr); } /* 2 Columns for wider look */
+}
+</style>
+</head>
+<body>
+
+<div class="bg-animation"><div class="blob"></div><div class="blob"></div></div>
+
+<header>
+    <div class="page-title">Projects</div>
+    <a href="landing.html" class="close-btn">&times;</a>
+</header>
+
+<div class="container">
+    
+    <div class="featured-card">
+        <div>
+            <span class="feat-badge">FLAGSHIP PROJECT</span>
+            <div class="feat-title">Global Infinity ID</div>
+            <p class="feat-desc">A unified digital identification system combining the security of Aadhaar with the versatility of a Global Account. The core of the Ameereyyy Ecosystem.</p>
+        </div>
+        
+        <div>
+            <div class="progress-text">
+                <span>Development Status</span>
+                <span style="color: var(--accent-green);">45%</span>
+            </div>
+            <div class="progress-container">
+                <div class="progress-fill"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="stats-row">
+        <div class="stat-box">
+            <span class="stat-num">365+</span>
+            <span class="stat-label">Target Apps</span>
+        </div>
+        <div class="stat-box">
+            <span class="stat-num">5</span>
+            <span class="stat-label">Active Now</span>
+        </div>
+        <div class="stat-box">
+            <span class="stat-num" style="color: var(--accent-green);">2026</span>
+            <span class="stat-label">Launch Year</span>
+        </div>
+    </div>
+
+    <div class="section-head"><span class="section-title">Domains</span><div class="line"></div></div>
+
+    <div class="project-grid">
+        <div class="project-card" onclick="showInfo('Web Development', 'Building futuristic websites and web apps using HTML5, CSS3, and JS.')">
+            <div class="card-info">
+                <span class="p-icon">🌐</span>
+                <div class="p-title">Web Dev</div>
+                <div class="p-sub">Full Stack</div>
+            </div>
+            <div class="card-arrow">
+                <svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
+            </div>
+        </div>
+
+        <div class="project-card" onclick="showInfo('Game Development', 'Creating immersive 3D/2D experiences using Unity and Unreal Engine.')">
+            <div class="card-info">
+                <span class="p-icon">🎮</span>
+                <div class="p-title">Game Dev</div>
+                <div class="p-sub">Unity & Unreal</div>
+            </div>
+            <div class="card-arrow">
+                <svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
+            </div>
+        </div>
+
+        <div class="project-card" onclick="showInfo('App Development', 'Developing native Android and iOS applications for the ecosystem.')">
+            <div class="card-info">
+                <span class="p-icon">📱</span>
+                <div class="p-title">App Dev</div>
+                <div class="p-sub">Android & iOS</div>
+            </div>
+            <div class="card-arrow">
+                <svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
+            </div>
+        </div>
+
+        <div class="project-card" onclick="showInfo('Operating Systems', 'Architecting a custom OS designed for privacy and speed.')">
+            <div class="card-info">
+                <span class="p-icon">🖥️</span>
+                <div class="p-title">OS Dev</div>
+                <div class="p-sub">Architecture</div>
+            </div>
+            <div class="card-arrow">
+                <svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
+            </div>
+        </div>
+
+        <div class="project-card" onclick="showInfo('Artificial Intelligence', 'Developing Fatima AI for smart assistance and automation.')">
+            <div class="card-info">
+                <span class="p-icon">🤖</span>
+                <div class="p-title">AI & ML</div>
+                <div class="p-sub">Future Tech</div>
+            </div>
+            <div class="card-arrow">
+                <svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
+            </div>
+        </div>
+
+        <div class="project-card" onclick="showInfo('FinTech', 'Secure payment gateways and digital wallet integration.')">
+            <div class="card-info">
+                <span class="p-icon">💳</span>
+                <div class="p-title">FinTech</div>
+                <div class="p-sub">Payments</div>
+            </div>
+            <div class="card-arrow">
+                <svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-head"><span class="section-title">Roadmap</span><div class="line"></div></div>
+
+    <div class="roadmap-container">
+        <div class="roadmap-item">
+            <div class="rm-time">Q1 2025</div>
+            <div class="rm-content active">
+                <div class="rm-title">Phase 1: Foundation</div>
+                <div class="rm-desc">Mastering core technologies (HTML, CSS, JS, C#) and building the first 50 prototype apps.</div>
+            </div>
+        </div>
+        <div class="roadmap-item">
+            <div class="rm-time">Q3 2025</div>
+            <div class="rm-content">
+                <div class="rm-title">Phase 2: Integration</div>
+                <div class="rm-desc">Connecting services to the cloud and developing the Global ID backend infrastructure.</div>
+            </div>
+        </div>
+        <div class="roadmap-item">
+            <div class="rm-time">Sep 2026</div>
+            <div class="rm-content">
+                <div class="rm-title" style="color: var(--accent-green);">Phase 3: The Launch</div>
+                <div class="rm-desc">Official release of the Ameereyyy Digital Ecosystem and Smartphone Brand announcement.</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="footer-placeholder"></div>
+</div>
+
+<div id="csModal" class="modal-overlay">
+    <div class="modal-box">
+        <h3 class="modal-title" id="mTitle">Category</h3>
+        <p class="modal-desc" id="mDesc">Description</p>
+        <button class="modal-close-btn" onclick="closeModal()">Got it</button>
+    </div>
+</div>
+
+<script>
+    const modal = document.getElementById('csModal');
+    const mTitle = document.getElementById('mTitle');
+    const mDesc = document.getElementById('mDesc');
+
+    function showInfo(title, desc) {
+        mTitle.innerText = title;
+        mDesc.innerText = desc;
+        modal.classList.add('active');
+    }
+    
+    function closeModal() { modal.classList.remove('active'); }
+    modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+
+    // Load Footer
+    fetch('footer.html')
+        .then(res => res.text())
+        .then(data => document.getElementById('footer-placeholder').innerHTML = data);
+</script>
+
+</body>
+</html>

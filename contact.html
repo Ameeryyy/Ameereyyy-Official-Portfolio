@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact - Ameereyyy</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+:root { 
+    --bg-color: #050505; 
+    --glass-card: rgba(20, 20, 20, 0.6); 
+    --text-main: #ffffff; 
+    --text-sec: #a1a1aa; 
+    --accent-green: #10b981; 
+    --accent-red: #ef4444;   
+    --border: rgba(255, 255, 255, 0.08);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+
+body { 
+    background-color: var(--bg-color); 
+    color: var(--text-main); 
+    user-select: none; 
+    display: flex; flex-direction: column; min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* --- COSMIC BACKGROUND --- */
+.bg-animation {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    z-index: -1; background: radial-gradient(circle at 50% 50%, #11111f, #050505);
+    overflow: hidden;
+}
+.blob {
+    position: absolute; width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(76, 29, 149, 0.15) 0%, rgba(0,0,0,0) 70%);
+    border-radius: 50%; animation: float 12s infinite ease-in-out alternate;
+}
+.blob:nth-child(2) { 
+    bottom: -150px; right: -150px; 
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, rgba(0,0,0,0) 70%);
+    animation-delay: -6s; 
+}
+@keyframes float { 0% { transform: translate(0, 0); } 100% { transform: translate(40px, 40px); } }
+
+/* HEADER */
+header {
+    position: fixed; top: 0; width: 100%; padding: 20px 6%;
+    display: flex; justify-content: space-between; align-items: center;
+    background: rgba(5, 5, 5, 0.7); backdrop-filter: blur(15px);
+    z-index: 1000; border-bottom: 1px solid var(--border);
+}
+.page-title { 
+    font-size: 1.3rem; font-weight: 800; letter-spacing: 0.5px;
+    background: linear-gradient(to right, #fff, #9ca3af);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.close-btn { 
+    text-decoration: none; color: white; font-size: 1.5rem; 
+    width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
+    background: rgba(255,255,255,0.05); border-radius: 50%; border: 1px solid var(--border);
+    transition: 0.3s;
+}
+.close-btn:hover { background: rgba(255,255,255,0.1); transform: rotate(90deg); border-color: rgba(255,255,255,0.3); }
+
+/* CONTAINER (Mobile Default) */
+.container { 
+    padding: 120px 6% 40px; 
+    max-width: 600px; 
+    margin: 0 auto; 
+    flex: 1; width: 100%; 
+    display: flex; flex-direction: column; justify-content: center;
+}
+
+/* INTRO TEXT */
+.intro-text { text-align: center; margin-bottom: 40px; }
+.intro-title { font-size: 2rem; font-weight: 800; margin-bottom: 10px; color: #fff; }
+.intro-desc { color: var(--text-sec); font-size: 1rem; max-width: 400px; margin: 0 auto; line-height: 1.6; }
+
+/* GLOBAL MAIL CARD */
+.mail-card {
+    background: var(--glass-card);
+    border: 1px solid var(--border);
+    padding: 60px 30px;
+    border-radius: 24px;
+    text-align: center;
+    text-decoration: none;
+    color: white;
+    transition: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 40px;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+}
+
+.mail-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--accent-green);
+    background: rgba(16, 185, 129, 0.05);
+    box-shadow: 0 20px 50px rgba(16, 185, 129, 0.1);
+}
+
+.card-icon {
+    width: 70px; height: 70px; margin-bottom: 25px;
+    fill: #ccc; transition: 0.4s;
+}
+
+.mail-card:hover .card-icon { fill: var(--accent-green); transform: scale(1.1); }
+
+.card-title { font-size: 1.6rem; font-weight: 800; margin-bottom: 8px; letter-spacing: 1px; }
+.card-sub { font-size: 0.9rem; color: var(--text-sec); font-family: 'Inter', monospace; letter-spacing: 0.5px; }
+
+#footer-placeholder { width: 100%; margin-top: 20px; }
+
+/* =========================================
+   DESKTOP MEDIA QUERY
+   ========================================= */
+@media (min-width: 900px) {
+    .container {
+        max-width: 1100px;
+        flex-direction: row; /* Split Layout */
+        align-items: center;
+        justify-content: space-between;
+        gap: 60px;
+        text-align: left;
+    }
+
+    .intro-text { 
+        text-align: left; 
+        margin-bottom: 0; 
+        flex: 1;
+    }
+    .intro-title { font-size: 3rem; line-height: 1.1; }
+    .intro-desc { margin: 0; font-size: 1.1rem; }
+
+    .mail-card {
+        width: 100%;
+        max-width: 450px;
+        margin-bottom: 0;
+        padding: 80px 40px;
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="bg-animation"><div class="blob"></div><div class="blob"></div></div>
+
+<header>
+    <div class="page-title">Contact</div>
+    <a href="landing.html" class="close-btn">&times;</a>
+</header>
+
+<div class="container">
+    
+    <div class="intro-text">
+        <h1 class="intro-title">Get in Touch</h1>
+        <p class="intro-desc">Connect directly through our secure internal messaging system. Your communication is encrypted and prioritized.</p>
+    </div>
+
+    <a href="mail.html" class="mail-card">
+        <svg class="card-icon" viewBox="0 0 24 24">
+            <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+        </svg>
+        <div class="card-title">Global Mail</div>
+        <div class="card-sub">Next-Gen Secure Messaging</div>
+    </a>
+
+</div> 
+
+<div id="footer-placeholder"></div>
+
+<script>
+    // Load Footer
+    fetch('footer.html')
+        .then(res => res.text())
+        .then(data => document.getElementById('footer-placeholder').innerHTML = data);
+</script>
+
+</body>
+</html>

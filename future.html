@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Future - Ameereyyy</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap');
+
+:root { 
+    --bg-color: #050505; 
+    --card-bg: rgba(20, 20, 20, 0.6); 
+    --glass-bg: rgba(255, 255, 255, 0.03); 
+    --text-main: #ffffff; 
+    --text-sec: #999999; 
+    --accent-future: #4dff4d; 
+    --border: rgba(255, 255, 255, 0.08);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+
+body { 
+    background-color: var(--bg-color); 
+    color: var(--text-main); 
+    user-select: none; 
+    display: flex; flex-direction: column; min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* --- COSMIC BACKGROUND --- */
+.bg-animation {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    z-index: -1; background: radial-gradient(circle at 50% 50%, #11111f, #050505);
+    overflow: hidden;
+}
+.blob {
+    position: absolute; width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(76, 29, 149, 0.15) 0%, rgba(0,0,0,0) 70%);
+    border-radius: 50%; animation: float 12s infinite ease-in-out alternate;
+}
+.blob:nth-child(2) { 
+    bottom: -150px; right: -150px; 
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, rgba(0,0,0,0) 70%);
+    animation-delay: -6s; 
+}
+@keyframes float { 0% { transform: translate(0, 0); } 100% { transform: translate(40px, 40px); } }
+
+/* HEADER */
+header {
+    position: fixed; top: 0; width: 100%; padding: 20px 6%;
+    display: flex; justify-content: space-between; align-items: center;
+    background: rgba(5, 5, 5, 0.7); backdrop-filter: blur(15px);
+    z-index: 1000; border-bottom: 1px solid var(--border);
+}
+.page-title { 
+    font-size: 1.3rem; font-weight: 800; letter-spacing: 0.5px;
+    background: linear-gradient(to right, #fff, #9ca3af);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.close-btn { 
+    text-decoration: none; color: white; font-size: 1.5rem; 
+    width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
+    background: rgba(255,255,255,0.05); border-radius: 50%; border: 1px solid rgba(255,255,255,0.1);
+    transition: 0.3s;
+}
+.close-btn:hover { background: rgba(255,255,255,0.1); transform: rotate(90deg); border-color: rgba(255,255,255,0.3); }
+
+/* CONTAINER */
+.container { 
+    padding: 110px 6% 40px; 
+    max-width: 900px; 
+    margin: 0 auto; 
+    flex: 1; width: 100%; 
+}
+
+/* INTRO TEXT */
+.intro-text { margin-bottom: 50px; text-align: center; }
+.intro-title { font-size: 2.2rem; font-weight: 800; margin-bottom: 10px; color: #fff; line-height: 1.1; }
+.intro-desc { color: var(--text-sec); font-size: 1rem; line-height: 1.6; max-width: 600px; margin: 0 auto; }
+
+/* SECTION STYLES */
+.roadmap-section { margin-bottom: 60px; }
+.section-label { 
+    font-size: 0.8rem; color: var(--accent-future); text-transform: uppercase; 
+    letter-spacing: 2px; margin-bottom: 25px; display: block; font-weight: 700; opacity: 0.8;
+}
+
+/* GLOBAL ID CARD (HIGHLIGHT) */
+.global-id-card {
+    background: linear-gradient(145deg, rgba(20,20,20,0.8) 0%, rgba(5,5,5,0.9) 100%);
+    border: 1px solid rgba(77, 255, 77, 0.2); padding: 40px; border-radius: 24px;
+    position: relative; overflow: hidden; backdrop-filter: blur(10px);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+    transition: 0.4s;
+}
+.global-id-card:hover { border-color: var(--accent-future); transform: translateY(-5px); box-shadow: 0 20px 50px rgba(77, 255, 77, 0.1); }
+
+.gid-badge { 
+    background: rgba(77, 255, 77, 0.1); color: var(--accent-future); 
+    padding: 6px 14px; font-size: 0.7rem; border-radius: 50px; 
+    display: inline-block; margin-bottom: 20px; font-weight: 700; 
+    border: 1px solid rgba(77, 255, 77, 0.2); letter-spacing: 1px;
+}
+.gid-title { font-size: 2rem; font-weight: 800; color: white; margin-bottom: 15px; }
+.gid-desc { color: #ccc; font-size: 1rem; line-height: 1.7; margin-bottom: 30px; max-width: 600px; }
+
+.gid-features { display: flex; gap: 15px; flex-wrap: wrap; }
+.gid-feat { 
+    font-size: 0.85rem; color: #bbb; background: rgba(255,255,255,0.05); 
+    padding: 10px 18px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); 
+}
+
+/* TIMELINE */
+.timeline { 
+    border-left: 2px solid rgba(255,255,255,0.1); 
+    padding-left: 40px; position: relative; margin-left: 10px;
+}
+.timeline-item { margin-bottom: 40px; position: relative; }
+.timeline-item:last-child { margin-bottom: 0; }
+.timeline-item::before {
+    content: ''; position: absolute; left: -47px; top: 6px; 
+    width: 12px; height: 12px; background: #111; 
+    border-radius: 50%; border: 2px solid #444; transition: 0.3s;
+}
+.timeline-item.active::before { 
+    background: var(--accent-future); border-color: var(--accent-future); 
+    box-shadow: 0 0 15px var(--accent-future); 
+}
+
+.t-year { font-size: 1rem; font-weight: 700; color: white; margin-bottom: 8px; }
+.t-desc { font-size: 0.95rem; color: var(--text-sec); line-height: 1.6; }
+
+/* ECO GRID */
+.eco-grid { 
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+    gap: 20px; 
+}
+.eco-card {
+    background: var(--glass-bg); border: 1px solid rgba(255,255,255,0.08); 
+    padding: 30px 25px; border-radius: 16px; cursor: pointer;
+    display: flex; flex-direction: column; justify-content: center; 
+    transition: 0.3s; backdrop-filter: blur(5px); height: 100%;
+}
+.eco-card:hover { 
+    border-color: rgba(255,255,255,0.3); transform: translateY(-5px); 
+    background: rgba(255,255,255,0.08);
+}
+
+.eco-icon { font-size: 2.5rem; margin-bottom: 15px; }
+.eco-title { font-size: 1.1rem; font-weight: 700; color: white; margin-bottom: 5px; }
+.eco-sub { font-size: 0.8rem; color: var(--text-sec); text-transform: uppercase; letter-spacing: 1px; }
+
+/* MODAL */
+.modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
+    display: none; align-items: center; justify-content: center; z-index: 2000; opacity: 0; transition: 0.3s;
+}
+.modal-overlay.active { display: flex; opacity: 1; }
+.modal-box { 
+    background: #111; border: 1px solid rgba(255,255,255,0.1); 
+    padding: 40px; border-radius: 24px; text-align: center; 
+    width: 90%; max-width: 400px; transform: scale(0.9); transition: 0.3s; 
+    box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+}
+.modal-overlay.active .modal-box { transform: scale(1); }
+
+.modal-title { font-size: 1.6rem; margin-bottom: 15px; color: white; font-weight: 800; }
+.modal-desc { color: #aaa; margin-bottom: 30px; font-size: 0.95rem; line-height: 1.6; }
+.modal-close-btn { 
+    background: white; color: black; padding: 14px 0; width: 100%; border: none; 
+    border-radius: 12px; cursor: pointer; font-weight: 700; font-size: 1rem; transition: 0.2s;
+}
+.modal-close-btn:active { transform: scale(0.96); }
+
+#footer-placeholder { width: 100%; margin-top: 30px; }
+
+/* Responsive Adjustments */
+@media (min-width: 900px) {
+    .container { padding-top: 130px; }
+    .global-id-card { padding: 60px; text-align: center; display: flex; flex-direction: column; align-items: center; }
+    .gid-features { justify-content: center; }
+}
+</style>
+</head>
+<body>
+
+<div class="bg-animation"><div class="blob"></div><div class="blob"></div></div>
+
+<header>
+    <div class="page-title">The Future</div>
+    <a href="landing.html" class="close-btn">&times;</a>
+</header>
+
+<div class="container">
+    
+    <div class="intro-text">
+        <h1 class="intro-title">Vision & Roadmap</h1>
+        <p class="intro-desc">This is not just a career path. It is the blueprint of a digital ecosystem I am building, one pixel at a time.</p>
+    </div>
+
+    <div class="roadmap-section">
+        <span class="section-label">Core Infrastructure</span>
+        
+        <div class="global-id-card">
+            <span class="gid-badge">ECOSYSTEM BACKBONE</span>
+            <div class="gid-title">Global Infinity ID</div>
+            <p class="gid-desc">
+                A revolutionary unified identification system designed to be the bridge between you and the digital world. 
+                It combines the verification power of <strong>Aadhaar</strong> with the digital versatility of a <strong>Google Account</strong>, 
+                all secured by military-grade encryption.
+            </p>
+            <div class="gid-features">
+                <span class="gid-feat">🔒 Zero-Knowledge Privacy</span>
+                <span class="gid-feat">🌍 Universal Login</span>
+                <span class="gid-feat">🔗 Seamless Sync</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="roadmap-section">
+        <span class="section-label">Master Plan</span>
+        <div class="timeline">
+            <div class="timeline-item active">
+                <div class="t-year">Phase 1: The Foundation (Current)</div>
+                <div class="t-desc">Mastering full-stack development, game engines, and core programming concepts. Building the 365+ Apps portfolio.</div>
+            </div>
+            <div class="timeline-item">
+                <div class="t-year">Phase 2: The Architecture</div>
+                <div class="t-desc">Building the core frameworks for Ameereyyy OS and establishing the Game Studio infrastructure.</div>
+            </div>
+            <div class="timeline-item">
+                <div class="t-year">Phase 3: The Ecosystem</div>
+                <div class="t-desc">Launching interconnected services where software, games, and AI live together through Global Infinity ID.</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="roadmap-section">
+        <span class="section-label">Connected Services</span>
+        <div class="eco-grid">
+            <div class="eco-card" onclick="showInfo('Ameereyyy OS', 'A custom operating system designed for minimalists and developers.')">
+                <div class="eco-icon">🖥️</div><div class="eco-title">Ameereyyy OS</div><div class="eco-sub">Operating System</div>
+            </div>
+            <div class="eco-card" onclick="showInfo('Fatima AI', 'An advanced personal assistant integrated into the ecosystem.')">
+                <div class="eco-icon">🧠</div><div class="eco-title">Fatima AI</div><div class="eco-sub">Artificial Intelligence</div>
+            </div>
+            <div class="eco-card" onclick="showInfo('Ameereyyy Games', 'A studio dedicated to creating immersive gaming experiences.')">
+                <div class="eco-icon">🎮</div><div class="eco-title">Ameereyyy Games</div><div class="eco-sub">Game Studio</div>
+            </div>
+            <div class="eco-card" onclick="showInfo('A-Cloud', 'Secure and fast cloud storage to sync all services.')">
+                <div class="eco-icon">☁️</div><div class="eco-title">A-Cloud</div><div class="eco-sub">Cloud Services</div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div id="footer-placeholder"></div>
+
+<div id="infoModal" class="modal-overlay">
+    <div class="modal-box">
+        <h3 class="modal-title" id="mTitle"></h3>
+        <p class="modal-desc" id="mDesc"></p>
+        <div style="margin-top: 20px; font-size: 0.8rem; color: #4dff4d; text-transform: uppercase; letter-spacing: 2px; font-weight: 700;">In Development</div>
+        <br>
+        <button class="modal-close-btn" onclick="closeModal()">Close</button>
+    </div>
+</div>
+
+<script>
+    const modal = document.getElementById('infoModal');
+    const mTitle = document.getElementById('mTitle');
+    const mDesc = document.getElementById('mDesc');
+
+    function showInfo(title, desc) {
+        mTitle.innerText = title; 
+        mDesc.innerText = desc; 
+        modal.classList.add('active');
+    }
+    
+    function closeModal() { modal.classList.remove('active'); }
+    modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+
+    // Load Footer
+    fetch('footer.html')
+        .then(res => res.text())
+        .then(data => document.getElementById('footer-placeholder').innerHTML = data);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Global Mail - Ameereyyy</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap');
+
+:root { 
+    --bg-color: #050505; 
+    --card-bg: #111; 
+    --glass-card: rgba(20, 20, 20, 0.6);
+    --text-main: #ffffff; 
+    --text-sec: #999999; 
+    --accent-mail: #00e5ff; /* Cyan for Mail */
+    --border: rgba(255, 255, 255, 0.08); 
+    --error: #ff4d4d;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+
+body { 
+    background-color: var(--bg-color); 
+    color: var(--text-main); 
+    user-select: none; 
+    display: flex; flex-direction: column; min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* --- COSMIC BACKGROUND --- */
+.bg-animation {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    z-index: -1; background: radial-gradient(circle at 50% 50%, #11111f, #050505);
+    overflow: hidden;
+}
+.blob {
+    position: absolute; width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(0, 229, 255, 0.1) 0%, rgba(0,0,0,0) 70%);
+    border-radius: 50%; animation: float 12s infinite ease-in-out alternate;
+}
+.blob:nth-child(2) { 
+    bottom: -150px; right: -150px; 
+    background: radial-gradient(circle, rgba(76, 29, 149, 0.15) 0%, rgba(0,0,0,0) 70%);
+    animation-delay: -6s; 
+}
+@keyframes float { 0% { transform: translate(0, 0); } 100% { transform: translate(40px, 40px); } }
+
+/* HEADER */
+header {
+    position: fixed; top: 0; width: 100%; padding: 20px 6%;
+    display: flex; justify-content: space-between; align-items: center;
+    background: rgba(5, 5, 5, 0.7); backdrop-filter: blur(15px);
+    z-index: 1000; border-bottom: 1px solid var(--border);
+}
+.page-title { 
+    font-size: 1.3rem; font-weight: 800; letter-spacing: 0.5px;
+    background: linear-gradient(to right, #fff, #9ca3af);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.close-btn { 
+    text-decoration: none; color: white; font-size: 1.5rem; 
+    width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
+    background: rgba(255,255,255,0.05); border-radius: 50%; border: 1px solid var(--border);
+    transition: 0.3s;
+}
+.close-btn:hover { background: rgba(255,255,255,0.1); transform: rotate(90deg); border-color: var(--accent-mail); color: var(--accent-mail); }
+
+/* CONTAINER */
+.container { 
+    padding: 110px 6% 40px; 
+    max-width: 600px; 
+    margin: 0 auto; 
+    flex: 1; width: 100%; 
+}
+
+/* INTRO */
+.intro-text { text-align: center; margin-bottom: 30px; }
+.intro-title { font-size: 1.8rem; font-weight: 800; margin-bottom: 8px; color: #fff; }
+.intro-desc { color: var(--text-sec); font-size: 0.9rem; max-width: 400px; margin: 0 auto; }
+
+/* MAIL WINDOW UI */
+.mail-window {
+    background: var(--glass-card); border: 1px solid var(--border); 
+    border-radius: 16px; overflow: hidden; display: flex; flex-direction: column;
+    backdrop-filter: blur(10px); box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+}
+
+.mail-row {
+    display: flex; border-bottom: 1px solid rgba(255,255,255,0.08); 
+    padding: 15px 20px; align-items: center;
+}
+.mail-label {
+    width: 80px; font-size: 0.75rem; color: #666; 
+    font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
+}
+.static-text { color: #888; font-size: 0.9rem; font-family: monospace; }
+.mail-input {
+    flex: 1; background: transparent; border: none; color: white; 
+    font-size: 0.95rem; outline: none; font-family: 'Inter', sans-serif;
+}
+.mail-input::placeholder { color: #444; }
+
+/* Message Body */
+.mail-body { padding: 20px; flex: 1; min-height: 200px; }
+.message-area {
+    width: 100%; height: 100%; background: transparent; border: none;
+    color: white; font-size: 1rem; line-height: 1.6; resize: none; outline: none;
+    font-family: 'Inter', sans-serif; min-height: 200px;
+}
+
+/* Footer Bar */
+.mail-footer {
+    padding: 15px 20px; border-top: 1px solid rgba(255,255,255,0.08); 
+    display: flex; justify-content: space-between; align-items: center; 
+    background: rgba(0,0,0,0.3);
+}
+
+/* Attach Button */
+.attach-btn {
+    background: rgba(255,255,255,0.05); border: 1px dashed #444; color: #888;
+    padding: 8px 15px; border-radius: 8px; font-size: 0.8rem; cursor: pointer; transition: 0.3s;
+    display: flex; align-items: center; gap: 6px;
+}
+.attach-btn:hover { border-color: var(--accent-mail); color: var(--accent-mail); background: rgba(0, 229, 255, 0.05); }
+
+/* Send Button */
+.send-btn {
+    background: white; color: black; padding: 10px 25px; border-radius: 8px;
+    font-weight: 700; border: none; cursor: pointer; transition: 0.3s;
+    display: flex; align-items: center; gap: 8px; font-size: 0.9rem;
+}
+.send-btn:hover { background: var(--accent-mail); box-shadow: 0 0 15px rgba(0, 229, 255, 0.3); }
+.send-btn svg { width: 16px; height: 16px; fill: black; }
+
+.char-counter { 
+    font-size: 0.7rem; color: #444; text-align: right; 
+    padding: 0 20px 10px; font-family: monospace; 
+}
+
+/* MODAL */
+.modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.85); backdrop-filter: blur(5px);
+    display: none; align-items: center; justify-content: center; z-index: 2000; opacity: 0; transition: 0.3s;
+}
+.modal-overlay.active { display: flex; opacity: 1; }
+.modal-box {
+    background: #111; border: 1px solid #333; padding: 30px; border-radius: 20px;
+    text-align: center; width: 320px; transform: scale(0.9); transition: 0.3s;
+}
+.modal-overlay.active .modal-box { transform: scale(1); }
+.modal-title { font-size: 1.2rem; margin-bottom: 10px; font-weight: 700; }
+.modal-desc { color: #888; font-size: 0.9rem; margin-bottom: 20px; }
+.modal-btn { padding: 10px 20px; background: white; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; width: 100%; }
+
+#footer-placeholder { width: 100%; margin-top: 40px; }
+
+/* =========================================
+   DESKTOP MEDIA QUERY
+   ========================================= */
+@media (min-width: 900px) {
+    .container {
+        max-width: 1100px;
+        padding-top: 130px;
+        display: grid;
+        grid-template-columns: 350px 1fr; /* Split Layout */
+        gap: 60px;
+        align-items: start;
+    }
+
+    .intro-text {
+        text-align: left;
+        position: sticky;
+        top: 130px;
+        margin-bottom: 0;
+    }
+    .intro-title { font-size: 3rem; line-height: 1.1; margin-bottom: 15px; }
+    .intro-desc { margin: 0; font-size: 1.1rem; }
+
+    .mail-window { width: 100%; }
+}
+</style>
+</head>
+<body>
+
+<div class="bg-animation"><div class="blob"></div><div class="blob"></div></div>
+
+<header>
+    <div class="page-title">Global Mail</div>
+    <a href="contact.html" class="close-btn">&times;</a>
+</header>
+
+<div class="container">
+    
+    <div class="intro-text">
+        <h2 class="intro-title">Compose Message</h2>
+        <p class="intro-desc">Encrypted channel established. Direct communication line to Ameereyyy HQ.</p>
+    </div>
+
+    <form id="mailForm" onsubmit="event.preventDefault(); sendMail();" class="mail-window">
+        
+        <div class="mail-row">
+            <span class="mail-label">FROM</span>
+            <span class="static-text">Secure Connection (You)</span>
+        </div>
+
+        <div class="mail-row">
+            <span class="mail-label">TO</span>
+            <span class="static-text" style="color: var(--accent-mail);">Ameereyyy (Official)</span>
+        </div>
+
+        <div class="mail-row">
+            <span class="mail-label">SUBJECT</span>
+            <input type="text" id="subjectInput" class="mail-input" placeholder="Enter topic..." maxlength="100">
+        </div>
+
+        <div class="mail-body">
+            <textarea id="messageInput" class="message-area" placeholder="Write your message here..." maxlength="2000" oninput="updateCounter()"></textarea>
+        </div>
+        <div class="char-counter" id="charCount">0 / 2000</div>
+
+        <div class="mail-footer">
+            <label class="attach-btn">
+                <input type="file" accept=".zip,application/zip" hidden onchange="handleFile(this)">
+                <span id="fileLabel">📎 Attach .zip</span>
+            </label>
+
+            <button type="submit" class="send-btn" id="sendBtn">
+                <span>Send Mail</span>
+                <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+            </button>
+        </div>
+    </form>
+
+</div>
+
+<div id="footer-placeholder"></div>
+
+<div id="customAlert" class="modal-overlay">
+    <div class="modal-box">
+        <h3 class="modal-title" id="alertTitle">Alert</h3>
+        <p class="modal-desc" id="alertMessage">Msg</p>
+        <button class="modal-btn" onclick="document.getElementById('customAlert').classList.remove('active')">OK</button>
+    </div>
+</div>
+
+<script>
+    // Update Character Counter
+    function updateCounter() {
+        const len = document.getElementById('messageInput').value.length;
+        document.getElementById('charCount').innerText = len + " / 2000";
+    }
+
+    // Handle File Upload (.zip only)
+    function handleFile(input) {
+        const label = document.getElementById('fileLabel');
+        if (input.files && input.files[0]) {
+            const file = input.files[0];
+            if (file.name.toLowerCase().endsWith('.zip')) {
+                label.innerText = "📎 " + file.name;
+                label.style.color = "#00e5ff";
+                label.style.borderColor = "#00e5ff";
+            } else {
+                showAlert("Invalid File", "Only .zip files are allowed for security.", true);
+                input.value = ""; 
+                label.innerText = "📎 Attach .zip";
+                label.style.color = "#888";
+                label.style.borderColor = "#444";
+            }
+        }
+    }
+
+    // Show Custom Alert
+    function showAlert(t, m, err) {
+        const titleEl = document.getElementById('alertTitle');
+        titleEl.innerText = t;
+        document.getElementById('alertMessage').innerText = m;
+        titleEl.style.color = err ? "#ff4d4d" : "#00e5ff";
+        document.getElementById('customAlert').classList.add('active');
+    }
+
+    // Send Mail Logic
+    function sendMail() {
+        const subject = document.getElementById('subjectInput').value.trim();
+        const msg = document.getElementById('messageInput').value.trim();
+        const btn = document.getElementById('sendBtn');
+
+        if(!subject) return showAlert("Missing Subject", "Please enter a subject line.", true);
+        if(!msg) return showAlert("Empty Message", "Please write your message.", true);
+
+        const originalHTML = btn.innerHTML;
+        btn.style.opacity = "0.7";
+        btn.innerHTML = "Sending...";
+
+        setTimeout(() => {
+            btn.innerHTML = "Sent ✓";
+            btn.style.background = "#00e5ff";
+
+            showAlert("Mail Sent", "Your secure message has been dispatched successfully.", false);
+
+            setTimeout(() => {
+                // Reset Form
+                document.getElementById('mailForm').reset();
+                document.getElementById('fileLabel').innerText = "📎 Attach .zip";
+                document.getElementById('fileLabel').style.color = "#888";
+                document.getElementById('fileLabel').style.borderColor = "#444";
+                document.getElementById('charCount').innerText = "0 / 2000";
+                
+                btn.innerHTML = originalHTML;
+                btn.style.background = "white";
+            }, 2000);
+        }, 1500);
+    }
+
+    // Load Footer
+    fetch('footer.html')
+        .then(res => res.text())
+        .then(data => document.getElementById('footer-placeholder').innerHTML = data);
+</script>
+
+</body>
+</html>

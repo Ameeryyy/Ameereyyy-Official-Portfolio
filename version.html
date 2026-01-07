@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Version History - Ameereyyy</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap');
+
+:root { 
+    --bg-color: #050505; 
+    --glass-card: rgba(20, 20, 20, 0.6); 
+    --text-main: #ffffff; 
+    --text-sec: #999999; 
+    --accent-green: #10b981; 
+    --border: rgba(255, 255, 255, 0.08); 
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+
+body { 
+    background-color: var(--bg-color); 
+    color: var(--text-main); 
+    user-select: none; 
+    display: flex; flex-direction: column; min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* --- COSMIC BACKGROUND --- */
+.bg-animation {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    z-index: -1; background: radial-gradient(circle at 50% 50%, #11111f, #050505);
+    overflow: hidden;
+}
+.blob {
+    position: absolute; width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, rgba(0,0,0,0) 70%);
+    border-radius: 50%; animation: float 12s infinite ease-in-out alternate;
+}
+.blob:nth-child(2) { 
+    bottom: -150px; right: -150px; 
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, rgba(0,0,0,0) 70%);
+    animation-delay: -6s; 
+}
+@keyframes float { 0% { transform: translate(0, 0); } 100% { transform: translate(40px, 40px); } }
+
+/* HEADER */
+header {
+    position: fixed; top: 0; width: 100%; padding: 20px 6%;
+    display: flex; justify-content: space-between; align-items: center;
+    background: rgba(5, 5, 5, 0.7); backdrop-filter: blur(15px);
+    z-index: 1000; border-bottom: 1px solid var(--border);
+}
+.page-title { 
+    font-size: 1.3rem; font-weight: 800; letter-spacing: 0.5px;
+    background: linear-gradient(to right, #fff, #9ca3af);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.close-btn { 
+    text-decoration: none; color: white; font-size: 1.5rem; 
+    width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
+    background: rgba(255,255,255,0.05); border-radius: 50%; border: 1px solid var(--border);
+    transition: 0.3s;
+}
+.close-btn:hover { background: rgba(255,255,255,0.1); transform: rotate(90deg); border-color: rgba(255,255,255,0.3); }
+
+/* CONTAINER */
+.container { 
+    padding: 110px 6% 40px; 
+    max-width: 600px; 
+    margin: 0 auto; 
+    flex: 1; width: 100%; 
+}
+
+/* VERSION CARD */
+.version-card {
+    background: var(--glass-card); border: 1px solid var(--border); 
+    padding: 35px; border-radius: 20px; margin-bottom: 30px; position: relative;
+    overflow: hidden; backdrop-filter: blur(10px);
+}
+
+.current-badge {
+    position: absolute; top: 25px; right: 25px;
+    background: rgba(16, 185, 129, 0.1); color: var(--accent-green);
+    font-size: 0.7rem; font-weight: 700; padding: 6px 12px;
+    border-radius: 50px; border: 1px solid rgba(16, 185, 129, 0.2);
+    text-transform: uppercase; letter-spacing: 1px;
+}
+
+.v-number { font-size: 3rem; font-weight: 800; color: white; margin-bottom: 5px; line-height: 1; }
+.v-date { font-size: 0.9rem; color: #666; margin-bottom: 25px; display: block; font-family: monospace; }
+
+.v-title { font-size: 1.1rem; font-weight: 600; margin-bottom: 15px; color: #eee; }
+
+/* LOG LIST */
+.change-log { list-style: none; padding: 0; }
+.change-log li {
+    position: relative; padding-left: 20px; margin-bottom: 12px;
+    color: var(--text-sec); font-size: 0.95rem; line-height: 1.6;
+}
+.change-log li::before {
+    content: '•'; position: absolute; left: 0; color: var(--accent-green); font-size: 1.2rem; line-height: 1rem;
+}
+
+/* CHECK BUTTON */
+.check-btn {
+    width: 100%; padding: 18px; background: rgba(255,255,255,0.05); 
+    border: 1px solid var(--border); color: white; font-weight: 600; cursor: pointer; border-radius: 12px;
+    transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 10px;
+    font-size: 1rem;
+}
+.check-btn:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); }
+.check-btn:active { transform: scale(0.98); }
+
+/* SPINNER */
+.spinner {
+    width: 20px; height: 20px; border: 2px solid rgba(255,255,255,0.3);
+    border-top: 2px solid white; border-radius: 50%;
+    animation: spin 1s linear infinite; display: none;
+}
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+.status-msg {
+    text-align: center; margin-top: 20px; font-size: 0.9rem;
+    color: var(--text-sec); height: 20px; opacity: 0; transition: 0.3s;
+}
+.status-msg.visible { opacity: 1; }
+
+#footer-placeholder { width: 100%; margin-top: 40px; }
+
+/* Responsive */
+@media (min-width: 900px) {
+    .container { padding-top: 130px; }
+}
+</style>
+</head>
+<body>
+
+<div class="bg-animation"><div class="blob"></div><div class="blob"></div></div>
+
+<header>
+    <div class="page-title">Version History</div>
+    <a href="landing.html" class="close-btn">&times;</a>
+</header>
+
+<div class="container">
+    
+    <div class="version-card">
+        <span class="current-badge">Stable Build</span>
+        <div class="v-number">1.0.0v</div>
+        <span class="v-date">Build Date: January 07, 2026</span>
+        
+        <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 25px 0;">
+
+        <div class="v-title">Changelog</div>
+        <ul class="change-log">
+            <li>Refined UI with "Cosmic Dark" theme across all pages.</li>
+            <li>Implemented responsive Desktop layouts for all sections.</li>
+            <li>Optimized Settings with interactive modal popups.</li>
+            <li>Added Global Mail and Report Issue interfaces.</li>
+            <li>Enhanced performance and fixed layout shifts on mobile.</li>
+        </ul>
+    </div>
+
+    <button class="check-btn" id="checkBtn" onclick="checkForUpdates()">
+        <div class="spinner" id="spinner"></div>
+        <span id="btnText">Check for Updates</span>
+    </button>
+    <div class="status-msg" id="statusMsg"></div>
+
+</div>
+
+<div id="footer-placeholder"></div>
+
+<script>
+    function checkForUpdates() {
+        const btn = document.getElementById('checkBtn');
+        const spinner = document.getElementById('spinner');
+        const btnText = document.getElementById('btnText');
+        const msg = document.getElementById('statusMsg');
+
+        // Reset state
+        msg.classList.remove('visible');
+        btn.style.pointerEvents = 'none'; 
+        spinner.style.display = 'block';
+        btnText.innerText = "Checking...";
+
+        // Simulate Network Request
+        setTimeout(() => {
+            spinner.style.display = 'none';
+            btnText.innerText = "Check for Updates";
+            btn.style.pointerEvents = 'all';
+            
+            msg.innerText = "You are using the latest version (1.0.0v).";
+            msg.style.color = "#10b981"; // Success Green
+            msg.classList.add('visible');
+        }, 2000);
+    }
+
+    // Load Footer
+    fetch('footer.html')
+        .then(res => res.text())
+        .then(data => document.getElementById('footer-placeholder').innerHTML = data);
+</script>
+
+</body>
+</html>

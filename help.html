@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Help Center - Ameereyyy</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+:root { 
+    --bg-color: #050505; 
+    --glass-card: rgba(20, 20, 20, 0.6); 
+    --text-main: #ffffff; 
+    --text-sec: #a1a1aa; 
+    --accent-green: #10b981; 
+    --accent-red: #ef4444;   
+    --border: rgba(255, 255, 255, 0.08);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+
+body { 
+    background-color: var(--bg-color); 
+    color: var(--text-main); 
+    user-select: none; 
+    display: flex; flex-direction: column; min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* --- COSMIC BACKGROUND --- */
+.bg-animation {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    z-index: -1; background: radial-gradient(circle at 50% 50%, #11111f, #050505);
+    overflow: hidden;
+}
+.blob {
+    position: absolute; width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(76, 29, 149, 0.15) 0%, rgba(0,0,0,0) 70%);
+    border-radius: 50%; animation: float 12s infinite ease-in-out alternate;
+}
+.blob:nth-child(2) { 
+    bottom: -150px; right: -150px; 
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, rgba(0,0,0,0) 70%);
+    animation-delay: -6s; 
+}
+@keyframes float { 0% { transform: translate(0, 0); } 100% { transform: translate(40px, 40px); } }
+
+/* HEADER */
+header {
+    position: fixed; top: 0; width: 100%; padding: 20px 6%;
+    display: flex; justify-content: space-between; align-items: center;
+    background: rgba(5, 5, 5, 0.7); backdrop-filter: blur(15px);
+    z-index: 1000; border-bottom: 1px solid var(--border);
+}
+.page-title { 
+    font-size: 1.3rem; font-weight: 800; letter-spacing: 0.5px;
+    background: linear-gradient(to right, #fff, #9ca3af);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.close-btn { 
+    text-decoration: none; color: white; font-size: 1.5rem; 
+    width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
+    background: rgba(255,255,255,0.05); border-radius: 50%; border: 1px solid var(--border);
+    transition: 0.3s;
+}
+.close-btn:hover { background: rgba(255,255,255,0.1); transform: rotate(90deg); border-color: rgba(255,255,255,0.3); }
+
+/* CONTAINER */
+.container { 
+    padding: 110px 6% 40px; 
+    max-width: 600px; 
+    margin: 0 auto; 
+    flex: 1; width: 100%; 
+}
+
+/* INTRO & SEARCH */
+.help-header { text-align: center; margin-bottom: 40px; }
+.help-title { font-size: 2rem; font-weight: 800; margin-bottom: 10px; color: #fff; }
+.help-desc { color: var(--text-sec); font-size: 1rem; margin-bottom: 30px; }
+
+.search-box {
+    position: relative; width: 100%; max-width: 100%;
+}
+.search-input {
+    width: 100%; padding: 18px 50px 18px 25px; 
+    background: rgba(255,255,255,0.05); border: 1px solid var(--border);
+    border-radius: 50px; color: #fff; font-size: 1rem; outline: none; transition: 0.3s;
+    backdrop-filter: blur(10px);
+}
+.search-input:focus { 
+    border-color: var(--accent-green); 
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.15); 
+    background: rgba(255,255,255,0.08);
+}
+.search-icon {
+    position: absolute; right: 20px; top: 50%; transform: translateY(-50%);
+    width: 24px; height: 24px; fill: #666; pointer-events: none; transition: 0.3s;
+}
+.search-input:focus + .search-icon { fill: var(--accent-green); }
+
+/* FAQ LIST */
+.faq-list { display: flex; flex-direction: column; gap: 15px; }
+
+.faq-item {
+    background: var(--glass-card); border: 1px solid var(--border);
+    border-radius: 16px; overflow: hidden; transition: 0.3s;
+    backdrop-filter: blur(5px);
+}
+.faq-item:hover { border-color: rgba(255,255,255,0.2); }
+.faq-item.active { border-color: var(--accent-green); background: rgba(16, 185, 129, 0.05); }
+
+.faq-question {
+    padding: 20px 25px; cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+    font-weight: 600; font-size: 1rem; color: #fff; user-select: none;
+}
+.arrow { transition: 0.3s; width: 20px; height: 20px; fill: #666; }
+.faq-item.active .arrow { transform: rotate(180deg); fill: var(--accent-green); }
+
+.faq-answer {
+    max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0, 1, 0, 1);
+    background: rgba(0,0,0,0.2);
+}
+.answer-content {
+    padding: 0 25px 25px; color: var(--text-sec); font-size: 0.95rem; line-height: 1.6;
+}
+
+#footer-placeholder { width: 100%; margin-top: 40px; }
+
+/* =========================================
+   DESKTOP MEDIA QUERY
+   ========================================= */
+@media (min-width: 900px) {
+    .container {
+        max-width: 1100px;
+        padding-top: 130px;
+        display: grid;
+        grid-template-columns: 400px 1fr; /* Split Layout */
+        gap: 60px;
+        align-items: start;
+    }
+
+    .help-header {
+        text-align: left;
+        position: sticky;
+        top: 130px;
+        margin-bottom: 0;
+    }
+    .help-title { font-size: 3rem; line-height: 1.1; margin-bottom: 15px; }
+    .help-desc { font-size: 1.1rem; margin-bottom: 40px; }
+    
+    .search-box { max-width: 100%; } /* Full width of left col */
+}
+</style>
+</head>
+<body>
+
+<div class="bg-animation"><div class="blob"></div><div class="blob"></div></div>
+
+<header>
+    <div class="page-title">Help Center</div>
+    <a href="landing.html" class="close-btn">&times;</a>
+</header>
+
+<div class="container">
+    
+    <div class="help-header">
+        <h1 class="help-title">How can we help?</h1>
+        <p class="help-desc">Find answers to common questions about the ecosystem, accounts, and features.</p>
+        
+        <div class="search-box">
+            <input type="text" class="search-input" id="searchInput" placeholder="Search questions..." onkeyup="filterFAQ()">
+            <svg class="search-icon" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+        </div>
+    </div>
+
+    <div class="faq-list" id="faqList">
+        
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+                What is Global Infinity ID?
+                <svg class="arrow" viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+            </div>
+            <div class="faq-answer">
+                <div class="answer-content">
+                    Global Infinity ID is a unified digital identity system currently in development. It aims to combine the security of Aadhaar with the versatility of a Google Account, allowing seamless access across the entire Ameereyyy ecosystem.
+                </div>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+                Is Ameereyyy OS available?
+                <svg class="arrow" viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+            </div>
+            <div class="faq-answer">
+                <div class="answer-content">
+                    Ameereyyy OS is currently in the architectural phase. We are building the core frameworks. It is expected to enter early alpha testing in Phase 3 of our roadmap.
+                </div>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+                How do I report a bug?
+                <svg class="arrow" viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+            </div>
+            <div class="faq-answer">
+                <div class="answer-content">
+                    You can report technical issues by navigating to the <strong>Feedback</strong> page. Please include a detailed description and you can optionally attach a .zip file containing logs or screenshots.
+                </div>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+                Can I contribute to the projects?
+                <svg class="arrow" viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+            </div>
+            <div class="faq-answer">
+                <div class="answer-content">
+                    Yes! We welcome collaboration. Please check our GitHub repositories (linked in the footer) or contact us via Global Mail to discuss potential partnerships.
+                </div>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+                How secure is my data?
+                <svg class="arrow" viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+            </div>
+            <div class="faq-answer">
+                <div class="answer-content">
+                    Security is our top priority. We use zero-knowledge privacy protocols for Global Infinity ID, ensuring that only you have access to your personal data.
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<div id="footer-placeholder"></div>
+
+<script>
+    // Accordion Logic
+    function toggleFAQ(element) {
+        const item = element.parentElement;
+        const answer = item.querySelector('.faq-answer');
+        const isActive = item.classList.contains('active');
+
+        // Close all others
+        document.querySelectorAll('.faq-item').forEach(i => {
+            i.classList.remove('active');
+            i.querySelector('.faq-answer').style.maxHeight = null;
+        });
+
+        // Toggle current
+        if (!isActive) {
+            item.classList.add('active');
+            answer.style.maxHeight = answer.scrollHeight + "px";
+        }
+    }
+
+    // Search Logic
+    function filterFAQ() {
+        const input = document.getElementById('searchInput').value.toLowerCase();
+        const items = document.querySelectorAll('.faq-item');
+
+        items.forEach(item => {
+            const question = item.querySelector('.faq-question').innerText.toLowerCase();
+            const answer = item.querySelector('.answer-content').innerText.toLowerCase();
+            
+            if (question.includes(input) || answer.includes(input)) {
+                item.style.display = "block";
+            } else {
+                item.style.display = "none";
+            }
+        });
+    }
+
+    // Load Footer
+    fetch('footer.html')
+        .then(res => res.text())
+        .then(data => document.getElementById('footer-placeholder').innerHTML = data);
+</script>
+
+</body>
+</html>

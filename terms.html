@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terms of Service - Ameereyyy</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap');
+
+:root { 
+    --bg-color: #050505; 
+    --card-bg: rgba(20, 20, 20, 0.6); 
+    --text-main: #ffffff; 
+    --text-sec: #999999; 
+    --accent-green: #10b981; 
+    --accent-red: #ef4444;   
+    --border: rgba(255, 255, 255, 0.08);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+
+body { 
+    background-color: var(--bg-color); 
+    color: var(--text-main); 
+    user-select: none; 
+    display: flex; flex-direction: column; min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* --- COSMIC BACKGROUND --- */
+.bg-animation {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    z-index: -1; background: radial-gradient(circle at 50% 50%, #11111f, #050505);
+    overflow: hidden;
+}
+.blob {
+    position: absolute; width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(76, 29, 149, 0.15) 0%, rgba(0,0,0,0) 70%);
+    border-radius: 50%; animation: float 12s infinite ease-in-out alternate;
+}
+.blob:nth-child(2) { 
+    bottom: -150px; right: -150px; 
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, rgba(0,0,0,0) 70%);
+    animation-delay: -6s; 
+}
+@keyframes float { 0% { transform: translate(0, 0); } 100% { transform: translate(40px, 40px); } }
+
+/* HEADER */
+header {
+    position: fixed; top: 0; width: 100%; padding: 20px 6%;
+    display: flex; justify-content: space-between; align-items: center;
+    background: rgba(5, 5, 5, 0.7); backdrop-filter: blur(15px);
+    z-index: 1000; border-bottom: 1px solid var(--border);
+}
+.page-title { 
+    font-size: 1.3rem; font-weight: 800; letter-spacing: 0.5px;
+    background: linear-gradient(to right, #fff, #9ca3af);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.close-btn { 
+    text-decoration: none; color: white; font-size: 1.5rem; 
+    width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
+    background: rgba(255,255,255,0.05); border-radius: 50%; border: 1px solid var(--border);
+    transition: 0.3s;
+}
+.close-btn:hover { background: rgba(255,255,255,0.1); transform: rotate(90deg); border-color: rgba(255,255,255,0.3); }
+
+/* CONTAINER */
+.container { 
+    padding: 120px 6% 40px; 
+    max-width: 800px; 
+    margin: 0 auto; 
+    flex: 1; width: 100%; 
+}
+
+/* INTRO */
+.intro-block { text-align: center; margin-bottom: 50px; }
+.intro-title { font-size: 2rem; font-weight: 800; margin-bottom: 10px; color: #fff; }
+.effective-date { 
+    display: inline-block; background: rgba(255,255,255,0.05); 
+    padding: 6px 12px; border-radius: 50px; border: 1px solid var(--border);
+    font-size: 0.8rem; color: var(--accent-green); font-family: monospace;
+}
+
+/* GLASS BOX FOR CONTENT */
+.terms-box {
+    background: rgba(255,255,255,0.02); border: 1px solid var(--border);
+    padding: 30px; border-radius: 16px; margin-bottom: 30px;
+    backdrop-filter: blur(5px);
+}
+
+.section-title {
+    font-size: 1.2rem; font-weight: 700; color: white; margin-top: 40px; margin-bottom: 15px;
+    border-left: 3px solid var(--accent-green); padding-left: 15px;
+}
+.section-title:first-child { margin-top: 0; }
+
+.text-block {
+    color: var(--text-sec); line-height: 1.8; font-size: 0.95rem; margin-bottom: 20px;
+    text-align: justify;
+}
+
+.highlight { color: #fff; font-weight: 600; }
+
+#footer-placeholder { width: 100%; margin-top: 40px; }
+
+/* Responsive */
+@media (min-width: 900px) {
+    .container { padding-top: 140px; }
+    .intro-title { font-size: 3rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="bg-animation"><div class="blob"></div><div class="blob"></div></div>
+
+<header>
+    <div class="page-title">Terms of Service</div>
+    <a href="landing.html" class="close-btn">&times;</a>
+</header>
+
+<div class="container">
+    
+    <div class="intro-block">
+        <h1 class="intro-title">Usage Protocol</h1>
+        <span class="effective-date">Effective: January 2026</span>
+    </div>
+
+    <div class="terms-box">
+        <p class="text-block">By accessing and using the Ameereyyy Portfolio ecosystem, you accept and agree to be bound by the terms and provisions of this agreement.</p>
+
+        <h2 class="section-title">1. Intellectual Property</h2>
+        <p class="text-block">All content, designs, code, graphics, and the <span class="highlight">"Global Infinity ID"</span> concept presented on this site are the intellectual property of <span class="highlight">Al Ameer (Ameereyyy)</span>. Unauthorized reproduction, distribution, or cloning of this portfolio is strictly prohibited.</p>
+
+        <h2 class="section-title">2. Usage License</h2>
+        <p class="text-block">You are granted a limited license to view the content for personal, non-commercial use. You may not modify, reverse engineer, or use any part of this site for commercial purposes without explicit written consent.</p>
+
+        <h2 class="section-title">3. User Conduct</h2>
+        <p class="text-block">When using interactive features like the Feedback or Global Mail forms, you agree not to submit content that is abusive, offensive, spam, or malicious. We reserve the right to ban Global IDs that violate this policy.</p>
+
+        <h2 class="section-title">4. Disclaimer</h2>
+        <p class="text-block">This website is a personal portfolio and conceptual showcase. The projects (like Ameereyyy OS, Global ID) are demonstrations of vision and skill. We are not liable for any interruptions or errors in the service.</p>
+
+        <h2 class="section-title">5. Modifications</h2>
+        <p class="text-block">We reserve the right to update or modify these terms at any time without prior notice. Continued use of the website signifies your acceptance of any changes.</p>
+    </div>
+
+</div>
+
+<div id="footer-placeholder"></div>
+
+<script>
+    // Load Footer
+    fetch('footer.html')
+        .then(res => res.text())
+        .then(data => document.getElementById('footer-placeholder').innerHTML = data);
+</script>
+
+</body>
+</html>
