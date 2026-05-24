@@ -1,0 +1,15 @@
+{
+  "name": "Ameeryyy Portfolio",
+  "short_name": "Ameeryyy",
+  "start_url": "/Ameereyyy-Official-Portfolio/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "icons": [
+    {
+      "src": "preview.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
